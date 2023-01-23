@@ -1,0 +1,68 @@
+body{
+    background-color: #222;
+    color: #bbb;
+    margin: 25mm;
+}
+
+table{
+    border-spacing: 0px;
+}
+
+td{
+    padding: 0px;
+}
+
+.left-right-header{
+    width: 10mm;
+    height: 25mm;
+    background-color: #372B21;
+    color: lightgray;
+    text-align: center;
+}
+
+.bottom-top-header{
+    width: 25mm;
+    height: 10mm;
+    background-color: #372B21;
+    color: lightgray;
+    text-align: center;
+}
+
+.corner-header{
+    width: 10mm;
+    height: 10mm;
+    background-color: #372B21;
+}
+
+.square{
+    width: 25mm;
+    height: 25mm;
+}
+
+.light{
+    background-color: #EADDCA;
+    color: black;
+}
+
+.dark{
+    background-color: #483C32;
+    color: white;
+}
+
+img{
+    width: 20mm;
+    height: 20mm;
+    margin: 10%;
+}
+
+.clicked{
+    background-color: orange;
+}
+
+#bibliography{
+    margin-top: 10px;
+}
+
+#bibliography a{
+    color: #bbb;
+}
