@@ -1,6 +1,18 @@
+/* Grayscale color scheme
+ * https://coolors.co/palette/ffffff-ece5e3-c9c5c4-817d7c-6a6663-504c4a-42413f-393534-302c2a-2c2825
+ */
+
+ /* Brown color scheme
+  * https://coolors.co/palette/0a0908-22333b-eae0d5-c6ac8f-5e503f
+  */
+
+  /* Clicked color scheme
+   * https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
+   */
+
 body{
-    background-color: #222;
-    color: #bbb;
+    background-color: #2C2825;
+    color: #ECE5E3;
     margin: 25mm;
 }
 
@@ -15,7 +27,7 @@ td{
 .left-right-header{
     width: 10mm;
     height: 25mm;
-    background-color: #372B21;
+    background-color: #393534;
     color: lightgray;
     text-align: center;
 }
@@ -23,7 +35,7 @@ td{
 .bottom-top-header{
     width: 25mm;
     height: 10mm;
-    background-color: #372B21;
+    background-color: #393534;
     color: lightgray;
     text-align: center;
 }
@@ -31,32 +43,38 @@ td{
 .corner-header{
     width: 10mm;
     height: 10mm;
-    background-color: #372B21;
+    background-color: #393534;
 }
 
 .square{
     width: 25mm;
     height: 25mm;
+    text-align: center;
 }
 
 .light{
-    background-color: #EADDCA;
+    background-color: #eae0d5;
     color: black;
 }
 
 .dark{
-    background-color: #483C32;
+    background-color: #5e503f;
     color: white;
 }
 
 img{
     width: 20mm;
     height: 20mm;
-    margin: 10%;
+    margin: 0;
+    /*margin: 10%;*/
 }
 
 .clicked{
-    background-color: orange;
+    background-color: #e76f51;
+}
+
+.clicked.occupied{
+    background-color: #2a9d8f;
 }
 
 #bibliography{

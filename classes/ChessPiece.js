@@ -8,7 +8,6 @@ export class ChessPiece {
         this.team = team;
         this.location = location;
         this.image = image;
-        //console.log(this);
     }
 
     //getters
@@ -23,9 +22,16 @@ export class ChessPiece {
      * @param {string} newLocation the new location that this chess piece will be moved to
      */
     move(newLocation) {
-        const node = document.querySelector(`#${location}`).removeChild(`#${pieceID}`);//go to the square where this chess piece is located, and remove its child, which will be an image, and store the image as a node
-        document.querySelector(`#${newLocation}`).appendChild(node);//go to the square which is to be the new location, and place the image there
-        location = newLocation;//update the location stored in this object
+        //put pieceID in new square
+        document.querySelector(`#${newLocation}`).textContent = this.pieceID;
+        //remove chess piece from old location
+        const node = document.querySelector(`#${this.location}`).removeChild(document.querySelector(`#${this.pieceID}`));
+        //place the chess piece in new square
+        document.querySelector(`#${newLocation}`).appendChild(node);
+        //remove pieceID from old square
+        document.querySelector(`#${this.location}`).textContent = '';
+        //update the location stored in this object
+        this.location = newLocation;
     }
 
     /**
@@ -35,5 +41,9 @@ export class ChessPiece {
      */
     canMove(newLocation) {
         //TODO: this function
+        if(newLocation === this.location){
+            return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
+        }
+        return true;
     }
 }
