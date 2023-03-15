@@ -2,18 +2,32 @@
  * https://coolors.co/palette/ffffff-ece5e3-c9c5c4-817d7c-6a6663-504c4a-42413f-393534-302c2a-2c2825
  */
 
- /* Brown color scheme
-  * https://coolors.co/palette/0a0908-22333b-eae0d5-c6ac8f-5e503f
-  */
+/* Brown color scheme
+ * https://coolors.co/palette/0a0908-22333b-eae0d5-c6ac8f-5e503f
+ */
 
-  /* Clicked color scheme
-   * https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
-   */
+/* Clicked color scheme
+ * https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
+ */
 
 body{
     background-color: #2C2825;
     color: #ECE5E3;
     margin: 25mm;
+}
+
+#table-wrapper{
+    float: left;
+    margin: 0mm;
+}
+
+#form-wrapper{
+    float: left;
+    border-style: solid;
+    border-color: #393534;
+    border-width: 10mm;
+    margin-left: 10mm;
+    padding: 5mm;
 }
 
 table{
@@ -69,12 +83,8 @@ img{
     /*margin: 10%;*/
 }
 
-.clicked{
-    background-color: #e76f51;
-}
-
-.clicked.occupied{
-    background-color: #2a9d8f;
+.occupied{
+    color: red;
 }
 
 #bibliography{

@@ -17,33 +17,57 @@ export class ChessPiece {
     getImage() { return this.image; }
 
     /**
-     * Moves this ChessPiece object from the current location to the new location, by moving the img attribute in html
+     * Moves this ChessPiece object from the current location to the new location, by updating the location field
      * 
-     * @param {string} newLocation the new location that this chess piece will be moved to
+     * @param {string} newSquare the new square that this chess piece will be moved to
      */
-    move(newLocation) {
-        //put pieceID in new square
-        document.querySelector(`#${newLocation}`).textContent = this.pieceID;
-        //remove chess piece from old location
-        const node = document.querySelector(`#${this.location}`).removeChild(document.querySelector(`#${this.pieceID}`));
-        //place the chess piece in new square
-        document.querySelector(`#${newLocation}`).appendChild(node);
-        //remove pieceID from old square
-        document.querySelector(`#${this.location}`).textContent = '';
+    move(newSquare) {
+        //store the old location square in a variable, so it is clear which one we are referring to
+        const oldSquare = this.location;
+
+        //put pieceID in NEW square
+        document.querySelector(`#${newSquare}`).textContent = this.pieceID;
+        //remove chess piece from OLD square
+        const node = document.querySelector(`#${oldSquare}`).removeChild(document.querySelector(`#${this.pieceID}`));
+        //place the chess piece in NEW square
+        document.querySelector(`#${newSquare}`).appendChild(node);
+        //remove pieceID from OLD square
+        document.querySelector(`#${oldSquare}`).textContent = '';
+
+        //declare that the OLD square is no longer occupied
+        document.querySelector(`#${oldSquare}`).classList.remove('occupied');
+        //declare that the NEW square is now occupied
+        document.querySelector(`#${newSquare}`).classList.add('occupied');
+
         //update the location stored in this object
-        this.location = newLocation;
+        this.location = newSquare;
     }
 
     /**
-     * Checks the requested newLocation, to see if this ChessPiece can actually move there
+     * Checks the requested newSquare, to see if this ChessPiece can actually move there
      * 
-     * @param {string} newLocation the location which we want to check that this piece is allowed to move to
+     * @param {string} newSquare the location which we want to check that this piece is allowed to move to
      */
-    canMove(newLocation) {
+    canMove(newSquare) {
         //TODO: this function
-        if(newLocation === this.location){
+        if (newSquare === this.location) {//if the user tries to move 0 spaces
+            console.log('You cannot move 0 spaces!');
+            console.log(false);
             return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
         }
-        return true;
+
+        if (!document.querySelector(`#${newSquare}`).classList.contains('occupied')) {//if newSquare is empty -- new square is NOT occupied
+            console.log('You successfully moved to an empty square');
+            return true;
+        }
+
+        if (this.pieceID[0] != document.querySelector(`#${newSquare}`).textContent[0]) {//if new square has an enemy on it -- the teams are opposite
+            console.log('Enemy captured!');
+            return true;
+        } 
+        else { //the destination square has a player of our team on it
+            console.log('You cannot capture your own pieces!');
+            return false;//can't capture our own players!
+        }
     }
 }

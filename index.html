@@ -9,299 +9,305 @@
 </head>
 
 <body>
-    <form>
-        <label for="movePiece">Piece to move:</label><br>
-        <input type="text" id="movePiece" name="movePiece" value="LR1"><br>
-        <label for="newLocation">Destination:</label><br>
-        <input type="text" id="newLocation" name="newLocation" value="A6"><br><br>
-        <input type="submit" value="Submit" id="btnMove">
-    </form> 
-    <table>
-        <tr id="row9">
-            <td class="corner-header"></td>
-            <td class="bottom-top-header">A</td>
-            <td class="bottom-top-header">B</td>
-            <td class="bottom-top-header">C</td>
-            <td class="bottom-top-header">D</td>
-            <td class="bottom-top-header">E</td>
-            <td class="bottom-top-header">F</td>
-            <td class="bottom-top-header">G</td>
-            <td class="bottom-top-header">H</td>
-            <td class="corner-header"></td>
-        </tr>
-        <tr id="row8">
-            <td>
-                <div class="left-right-header"><br><br>8</div>
-            </td>
-            <td>
-                <div class="square light" id="A8"></div>
-            </td>
-            <td>
-                <div class="square dark" id="B8"></div>
-            </td>
-            <td>
-                <div class="square light" id="C8"></div>
-            </td>
-            <td>
-                <div class="square dark" id="D8"></div>
-            </td>
-            <td>
-                <div class="square light" id="E8"></div>
-            </td>
-            <td>
-                <div class="square dark" id="F8"></div>
-            </td>
-            <td>
-                <div class="square light" id="G8"></div>
-            </td>
-            <td>
-                <div class="square dark" id="H8"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>8</div>
-            </td>
-        </tr>
-        <tr id="row7">
-            <td>
-                <div class="left-right-header"><br><br>7</div>
-            </td>
-            <td>
-                <div class="square dark" id="A7"></div>
-            </td>
-            <td>
-                <div class="square light" id="B7"></div>
-            </td>
-            <td>
-                <div class="square dark" id="C7"></div>
-            </td>
-            <td>
-                <div class="square light" id="D7"></div>
-            </td>
-            <td>
-                <div class="square dark" id="E7"></div>
-            </td>
-            <td>
-                <div class="square light" id="F7"></div>
-            </td>
-            <td>
-                <div class="square dark" id="G7"></div>
-            </td>
-            <td>
-                <div class="square light" id="H7"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>7</div>
-            </td>
-        </tr>
-        <tr id="row6">
-            <td>
-                <div class="left-right-header"><br><br>6</div>
-            </td>
-            <td>
-                <div class="square light" id="A6"></div>
-            </td>
-            <td>
-                <div class="square dark" id="B6"></div>
-            </td>
-            <td>
-                <div class="square light" id="C6"></div>
-            </td>
-            <td>
-                <div class="square dark" id="D6"></div>
-            </td>
-            <td>
-                <div class="square light" id="E6"></div>
-            </td>
-            <td>
-                <div class="square dark" id="F6"></div>
-            </td>
-            <td>
-                <div class="square light" id="G6"></div>
-            </td>
-            <td>
-                <div class="square dark" id="H6"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>6</div>
-            </td>
-        </tr>
-        <tr id="row5">
-            <td>
-                <div class="left-right-header"><br><br>5</div>
-            </td>
-            <td>
-                <div class="square dark" id="A5"></div>
-            </td>
-            <td>
-                <div class="square light" id="B5"></div>
-            </td>
-            <td>
-                <div class="square dark" id="C5"></div>
-            </td>
-            <td>
-                <div class="square light" id="D5"></div>
-            </td>
-            <td>
-                <div class="square dark" id="E5"></div>
-            </td>
-            <td>
-                <div class="square light" id="F5"></div>
-            </td>
-            <td>
-                <div class="square dark" id="G5"></div>
-            </td>
-            <td>
-                <div class="square light" id="H5"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>5</div>
-            </td>
-        </tr>
-        <tr id="row4">
-            <td>
-                <div class="left-right-header"><br><br>4</div>
-            </td>
-            <td>
-                <div class="square light" id="A4"></div>
-            </td>
-            <td>
-                <div class="square dark" id="B4"></div>
-            </td>
-            <td>
-                <div class="square light" id="C4"></div>
-            </td>
-            <td>
-                <div class="square dark" id="D4"></div>
-            </td>
-            <td>
-                <div class="square light" id="E4"></div>
-            </td>
-            <td>
-                <div class="square dark" id="F4"></div>
-            </td>
-            <td>
-                <div class="square light" id="G4"></div>
-            </td>
-            <td>
-                <div class="square dark" id="H4"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>4</div>
-            </td>
-        </tr>
-        <tr id="row3">
-            <td>
-                <div class="left-right-header"><br><br>3</div>
-            </td>
-            <td>
-                <div class="square dark" id="A3"></div>
-            </td>
-            <td>
-                <div class="square light" id="B3"></div>
-            </td>
-            <td>
-                <div class="square dark" id="C3"></div>
-            </td>
-            <td>
-                <div class="square light" id="D3"></div>
-            </td>
-            <td>
-                <div class="square dark" id="E3"></div>
-            </td>
-            <td>
-                <div class="square light" id="F3"></div>
-            </td>
-            <td>
-                <div class="square dark" id="G3"></div>
-            </td>
-            <td>
-                <div class="square light" id="H3"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>3</div>
-            </td>
-        </tr>
-        <tr id="row2">
-            <td>
-                <div class="left-right-header"><br><br>2</div>
-            </td>
-            <td>
-                <div class="square light" id="A2"></div>
-            </td>
-            <td>
-                <div class="square dark" id="B2"></div>
-            </td>
-            <td>
-                <div class="square light" id="C2"></div>
-            </td>
-            <td>
-                <div class="square dark" id="D2"></div>
-            </td>
-            <td>
-                <div class="square light" id="E2"></div>
-            </td>
-            <td>
-                <div class="square dark" id="F2"></div>
-            </td>
-            <td>
-                <div class="square light" id="G2"></div>
-            </td>
-            <td>
-                <div class="square dark" id="H2"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>2</div>
-            </td>
-        </tr>
-        <tr id="row1">
-            <td>
-                <div class="left-right-header"><br><br>1</div>
-            </td>
-            <td>
-                <div class="square dark" id="A1"></div>
-            </td>
-            <td>
-                <div class="square light" id="B1"></div>
-            </td>
-            <td>
-                <div class="square dark" id="C1"></div>
-            </td>
-            <td>
-                <div class="square light" id="D1"></div>
-            </td>
-            <td>
-                <div class="square dark" id="E1"></div>
-            </td>
-            <td>
-                <div class="square light" id="F1"></div>
-            </td>
-            <td>
-                <div class="square dark" id="G1"></div>
-            </td>
-            <td>
-                <div class="square light" id="H1"></div>
-            </td>
-            <td>
-                <div class="left-right-header"><br><br>1</div>
-            </td>
-        </tr>
-        <tr id="row0">
-            <td class="corner-header"></td>
-            <td class="bottom-top-header">A</td>
-            <td class="bottom-top-header">B</td>
-            <td class="bottom-top-header">C</td>
-            <td class="bottom-top-header">D</td>
-            <td class="bottom-top-header">E</td>
-            <td class="bottom-top-header">F</td>
-            <td class="bottom-top-header">G</td>
-            <td class="bottom-top-header">H</td>
-            <td class="corner-header"></td>
-        </tr>
-    </table>
-    <div id="bibliography">
-        <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by
-            deemakdaksina - Flaticon</a>
+    <div id="table-wrapper">
+        <table>
+            <tr id="row9">
+                <td class="corner-header"></td>
+                <td class="bottom-top-header">A</td>
+                <td class="bottom-top-header">B</td>
+                <td class="bottom-top-header">C</td>
+                <td class="bottom-top-header">D</td>
+                <td class="bottom-top-header">E</td>
+                <td class="bottom-top-header">F</td>
+                <td class="bottom-top-header">G</td>
+                <td class="bottom-top-header">H</td>
+                <td class="corner-header"></td>
+            </tr>
+            <tr id="row8">
+                <td>
+                    <div class="left-right-header"><br><br>8</div>
+                </td>
+                <td>
+                    <div class="square light" id="A8"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="B8"></div>
+                </td>
+                <td>
+                    <div class="square light" id="C8"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="D8"></div>
+                </td>
+                <td>
+                    <div class="square light" id="E8"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="F8"></div>
+                </td>
+                <td>
+                    <div class="square light" id="G8"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="H8"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>8</div>
+                </td>
+            </tr>
+            <tr id="row7">
+                <td>
+                    <div class="left-right-header"><br><br>7</div>
+                </td>
+                <td>
+                    <div class="square dark" id="A7"></div>
+                </td>
+                <td>
+                    <div class="square light" id="B7"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="C7"></div>
+                </td>
+                <td>
+                    <div class="square light" id="D7"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="E7"></div>
+                </td>
+                <td>
+                    <div class="square light" id="F7"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="G7"></div>
+                </td>
+                <td>
+                    <div class="square light" id="H7"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>7</div>
+                </td>
+            </tr>
+            <tr id="row6">
+                <td>
+                    <div class="left-right-header"><br><br>6</div>
+                </td>
+                <td>
+                    <div class="square light" id="A6"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="B6"></div>
+                </td>
+                <td>
+                    <div class="square light" id="C6"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="D6"></div>
+                </td>
+                <td>
+                    <div class="square light" id="E6"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="F6"></div>
+                </td>
+                <td>
+                    <div class="square light" id="G6"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="H6"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>6</div>
+                </td>
+            </tr>
+            <tr id="row5">
+                <td>
+                    <div class="left-right-header"><br><br>5</div>
+                </td>
+                <td>
+                    <div class="square dark" id="A5"></div>
+                </td>
+                <td>
+                    <div class="square light" id="B5"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="C5"></div>
+                </td>
+                <td>
+                    <div class="square light" id="D5"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="E5"></div>
+                </td>
+                <td>
+                    <div class="square light" id="F5"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="G5"></div>
+                </td>
+                <td>
+                    <div class="square light" id="H5"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>5</div>
+                </td>
+            </tr>
+            <tr id="row4">
+                <td>
+                    <div class="left-right-header"><br><br>4</div>
+                </td>
+                <td>
+                    <div class="square light" id="A4"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="B4"></div>
+                </td>
+                <td>
+                    <div class="square light" id="C4"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="D4"></div>
+                </td>
+                <td>
+                    <div class="square light" id="E4"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="F4"></div>
+                </td>
+                <td>
+                    <div class="square light" id="G4"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="H4"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>4</div>
+                </td>
+            </tr>
+            <tr id="row3">
+                <td>
+                    <div class="left-right-header"><br><br>3</div>
+                </td>
+                <td>
+                    <div class="square dark" id="A3"></div>
+                </td>
+                <td>
+                    <div class="square light" id="B3"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="C3"></div>
+                </td>
+                <td>
+                    <div class="square light" id="D3"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="E3"></div>
+                </td>
+                <td>
+                    <div class="square light" id="F3"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="G3"></div>
+                </td>
+                <td>
+                    <div class="square light" id="H3"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>3</div>
+                </td>
+            </tr>
+            <tr id="row2">
+                <td>
+                    <div class="left-right-header"><br><br>2</div>
+                </td>
+                <td>
+                    <div class="square light" id="A2"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="B2"></div>
+                </td>
+                <td>
+                    <div class="square light" id="C2"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="D2"></div>
+                </td>
+                <td>
+                    <div class="square light" id="E2"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="F2"></div>
+                </td>
+                <td>
+                    <div class="square light" id="G2"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="H2"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>2</div>
+                </td>
+            </tr>
+            <tr id="row1">
+                <td>
+                    <div class="left-right-header"><br><br>1</div>
+                </td>
+                <td>
+                    <div class="square dark" id="A1"></div>
+                </td>
+                <td>
+                    <div class="square light" id="B1"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="C1"></div>
+                </td>
+                <td>
+                    <div class="square light" id="D1"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="E1"></div>
+                </td>
+                <td>
+                    <div class="square light" id="F1"></div>
+                </td>
+                <td>
+                    <div class="square dark" id="G1"></div>
+                </td>
+                <td>
+                    <div class="square light" id="H1"></div>
+                </td>
+                <td>
+                    <div class="left-right-header"><br><br>1</div>
+                </td>
+            </tr>
+            <tr id="row0">
+                <td class="corner-header"></td>
+                <td class="bottom-top-header">A</td>
+                <td class="bottom-top-header">B</td>
+                <td class="bottom-top-header">C</td>
+                <td class="bottom-top-header">D</td>
+                <td class="bottom-top-header">E</td>
+                <td class="bottom-top-header">F</td>
+                <td class="bottom-top-header">G</td>
+                <td class="bottom-top-header">H</td>
+                <td class="corner-header"></td>
+            </tr>
+        </table>
+        <div id="bibliography">
+            <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by
+                deemakdaksina - Flaticon</a>
+        </div>
     </div>
+    <!--end of table-wrapper-->
+    <div id="form-wrapper">
+        <form>
+            <label for="movePiece">Piece to move:</label><br>
+            <input type="text" id="movePiece" name="movePiece" value="LR1"><br>
+            <label for="newLocation">Destination:</label><br>
+            <input type="text" id="newLocation" name="newLocation" value="A6"><br><br>
+            <input type="submit" value="Submit" id="btnMove">
+        </form>
+    </div>
+
     <script type="module" src="main.js"></script>
 </body>
 
