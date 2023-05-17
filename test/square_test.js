@@ -1,11 +1,11 @@
-var expect = require('chai').expect;
+let expect = require('chai').expect;
 
 //Test Suite IsValidSquare
-describe('distance.IsValidSquare', () => {
-    var IsValidSquare = require('../classes/distance').IsValidSquare;
+describe('square.IsValidSquare', () => {
+    let IsValidSquare = require('../classes/square_methods').IsValidSquare;
 
     //the first time, the squares are all valid
-    var testCases = [
+    let testCases = [
         'A8', 'H8', 'H1', 'A1', //corner
         'D8', 'H4', 'C1', 'A6', //edge case
         'B5', 'E2', 'F7', 'G3' //happy path       
@@ -18,10 +18,10 @@ describe('distance.IsValidSquare', () => {
     });
 
     //the second time, the squares are all INVALID
-    var testCases = [
+    testCases = [
         'I1', 'Z1', 'A0', 'A9', 'Z9', 'I9', 'I0', 'Z0', //edge case invalid
-        'M5', 'C10', 'D11', 'K14', 
-        '3C', '73', 'AA', '5', 'H3LLO'        
+        'M5', 'C10', 'D11', 'K14',
+        '3C', '73', 'AA', '5', 'H3LLO'
     ];
     //spec 2 INVALID squares
     testCases.forEach(square => {
@@ -32,10 +32,10 @@ describe('distance.IsValidSquare', () => {
 });
 
 //Test Suite DeltaX
-describe('distance.DeltaX', () => {
-    var DeltaX = require('../classes/distance').DeltaX;
+describe('square.DeltaX', () => {
+    let DeltaX = require('../classes/square_methods').DeltaX;
 
-    var testCases = [
+    let testCases = [
         { square1: 'C4', square2: 'C4', result: 0 },
         { square1: 'D7', square2: 'E7', result: 1 },
         { square1: 'E2', square2: 'G2', result: 2 },
@@ -61,10 +61,10 @@ describe('distance.DeltaX', () => {
 });
 
 //Test Suite DeltaY
-describe('distance.DeltaY', () => {
-    var DeltaY = require('../classes/distance').DeltaY;
+describe('square.DeltaY', () => {
+    let DeltaY = require('../classes/square_methods').DeltaY;
 
-    var testCases = [
+    let testCases = [
         { square1: 'A4', square2: 'A4', result: 0 },
         { square1: 'B7', square2: 'B8', result: 1 },
         { square1: 'D3', square2: 'D5', result: 2 },
@@ -90,10 +90,11 @@ describe('distance.DeltaY', () => {
 });
 
 //Test Suite DeltaY2
-describe('distance.DeltaY2', () => {
-    var DeltaY2 = require('../classes/distance').DeltaY2;
+describe('square.DeltaY2', () => {
+    let DeltaY2 = require('../classes/square_methods').DeltaY2;
 
-    var testCases = [
+    //test cases for the light team
+    let testCases = [
         { square1: 'A4', square2: 'A4', result: 0 },
         { square1: 'B7', square2: 'B8', result: 1 },
         { square1: 'D3', square2: 'D5', result: 2 },
@@ -111,19 +112,46 @@ describe('distance.DeltaY2', () => {
         { square1: 'G8', square2: 'G1', result: -7 }
     ];
 
+    //test spec 1: light team
     testCases.forEach(testCase => {
-        it(`Should say DeltaY2(${testCase.square1}, ${testCase.square2}) === ${testCase.result}`, () => {
-            expect(DeltaY2(testCase.square1, testCase.square2)).to.be.equal(testCase.result);
+        it(`Should say DeltaY2(light, ${testCase.square1}, ${testCase.square2}) === ${testCase.result}`, () => {
+            expect(DeltaY2('light', testCase.square1, testCase.square2)).to.be.equal(testCase.result);
+        });
+    });
+
+    //test cases for the dark team
+    testCases = [
+        { square1: 'A2', square2: 'B2', result: 0 },
+        { square1: 'B2', square2: 'C1', result: 1 },
+        { square1: 'C6', square2: 'D4', result: 2 },
+        { square1: 'D8', square2: 'F5', result: 3 },
+        { square1: 'E7', square2: 'H3', result: 4 },
+        { square1: 'F6', square2: 'C1', result: 5 },
+        { square1: 'G8', square2: 'E2', result: 6 },
+        { square1: 'H8', square2: 'A1', result: 7 },
+        { square1: 'A7', square2: 'H8', result: -1 },
+        { square1: 'B5', square2: 'H7', result: -2 },
+        { square1: 'C1', square2: 'H4', result: -3 },
+        { square1: 'D4', square2: 'H8', result: -4 },
+        { square1: 'E2', square2: 'A7', result: -5 },
+        { square1: 'F2', square2: 'A8', result: -6 },
+        { square1: 'G1', square2: 'A8', result: -7 }
+    ];
+
+    //test spec 2: dark team
+    testCases.forEach(testCase => {
+        it(`Should say DeltaY2(dark, ${testCase.square1}, ${testCase.square2}) === ${testCase.result}`, () => {
+            expect(DeltaY2('dark', testCase.square1, testCase.square2)).to.be.equal(testCase.result);
         });
     });
 });
 
 //Test Suite DeltaDiag
-describe('distance.DeltaDiag', () => {
-    var DeltaDiag = require('../classes/distance').DeltaDiag;
+describe('square.DeltaDiag', () => {
+    let DeltaDiag = require('../classes/square_methods').DeltaDiag;
 
     //the first time, the array stores test cases in which the moves are all diagonal
-    var testCases = [
+    let testCases = [
         { square1: 'A4', square2: 'A4', result: 0 },
         { square1: 'B7', square2: 'C8', result: 1 },
         { square1: 'D3', square2: 'F5', result: 2 },

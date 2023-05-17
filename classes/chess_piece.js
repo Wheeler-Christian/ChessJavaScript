@@ -1,3 +1,5 @@
+const IsValidSquare = require('./square_methods').isValidSquare;
+
 export class ChessPiece {
     /**
      * Creates an instance of ChessPiece
@@ -15,6 +17,11 @@ export class ChessPiece {
     getTeam() { return this.team; }
     getLocation() { return this.location; }
     getImage() { return this.image; }
+
+    //setters -- dummy functions -- delete later
+    setTeam(newTeam) { this.team = newTeam; }
+    setLocation(newLocation) { this.location = newLocation; }
+
 
     /**
      * Moves this ChessPiece object from the current location to the new location, by updating the location field
@@ -47,12 +54,15 @@ export class ChessPiece {
      * Checks the requested newSquare, to see if this ChessPiece can actually move there
      * 
      * @param {string} newSquare the location which we want to check that this piece is allowed to move to
+     * @return boolean true if the ChessPiece can move there, false otherwise
      */
     canMove(newSquare) {
-        //TODO: this function
+        if(!isValidSquare(newSquare)){
+            return false; //you cannot move to an invalid square
+        }
+                
         if (newSquare === this.location) {//if the user tries to move 0 spaces
             console.log('You cannot move 0 spaces!');
-            console.log(false);
             return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
         }
 

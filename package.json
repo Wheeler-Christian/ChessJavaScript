@@ -100,5 +100,8 @@
   "bugs": {
     "url": "https://github.com/christianwheeler09/ChessJavaScript/issues"
   },
-  "homepage": "https://github.com/christianwheeler09/ChessJavaScript#readme"
+  "homepage": "https://github.com/christianwheeler09/ChessJavaScript#readme",
+  "directories": {
+    "test": "test"
+  }
 }

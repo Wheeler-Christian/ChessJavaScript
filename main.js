@@ -4,6 +4,7 @@
 
 //Import the external classes vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 import { ChessPiece } from './classes/chess_piece.js';
+import { Pawn } from './classes/pawn.js';
 //Import the external classes ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 //to convert letters to numbers -- Z is a dummy value -- so the indeces of the letters line up with the numbering on the board
@@ -11,9 +12,9 @@ import { ChessPiece } from './classes/chess_piece.js';
 const num2alpha = ['Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 //tells us where the ChessPiece objects are stored in our array
 const pieceID2Index = ['DR2', 'DK2', 'DB2', 'DQ1', 'DQ0', 'DB1', 'DK1', 'DR1',
-    'DP8', 'DP7', 'DP6', 'DP5', 'DP4', 'DP3', 'DP2', 'DP1',
-    'LP1', 'LP2', 'LP3', 'LP4', 'LP5', 'LP6', 'LP7', 'LP8',
-    'LR1', 'LK1', 'LB1', 'LQ1', 'LQ0', 'LB2', 'LK2', 'LR2'];
+                       'DP8', 'DP7', 'DP6', 'DP5', 'DP4', 'DP3', 'DP2', 'DP1',
+                       'LP1', 'LP2', 'LP3', 'LP4', 'LP5', 'LP6', 'LP7', 'LP8',
+                       'LR1', 'LK1', 'LB1', 'LQ1', 'LQ0', 'LB2', 'LK2', 'LR2'];
 const NUM_COLS = 8;//the chess board has 8 columns
 const NUM_ROWS = 8;//and 8 rows
 const btnMove = document.querySelector('#btnMove');
