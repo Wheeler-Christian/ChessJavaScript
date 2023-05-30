@@ -1,4 +1,4 @@
-const IsValidSquare = require('./square_methods').isValidSquare;
+import * as SQUARE_METHODS from './square_methods.js';
 
 export class ChessPiece {
     /**
@@ -10,7 +10,10 @@ export class ChessPiece {
         this.team = team;
         this.location = location;
         this.image = image;
+        this.makeOccupied(location);
     }
+
+    feedback = document.querySelector('#feedback');
 
     //getters
     getPieceID() { return this.pieceID; }
@@ -21,9 +24,36 @@ export class ChessPiece {
     //setters -- dummy functions -- delete later
     setTeam(newTeam) { this.team = newTeam; }
     setLocation(newLocation) { this.location = newLocation; }
+    setFeedback(text) {this.feedback.textContent = text; }
 
+    /**---------------------------------------------------------------------------------------------------------------------------------------
+     * 
+     * @param {string} square 
+     * @returns true if the square is occupied, false otherwise
+     */
+     isOccupied(square) {
+        return document.querySelector(`#${square}`).classList.contains('occupied');
+    }
 
-    /**
+    /**---------------------------------------------------------------------------------------------------------------------------------------
+     * 
+     * @param {string} square 
+     * @returns true if the square is occupied, false otherwise
+     */
+     makeOccupied(square) {
+        document.querySelector(`#${square}`).classList.add('occupied');
+    }
+
+    /**---------------------------------------------------------------------------------------------------------------------------------------
+     * 
+     * @param {string} square 
+     * @returns true if the square is occupied, false otherwise
+     */
+    makeEmpty(square) {
+        document.querySelector(`#${square}`).classList.remove('occupied');
+    }
+
+    /**---------------------------------------------------------------------------------------------------------------------------------------
      * Moves this ChessPiece object from the current location to the new location, by updating the location field
      * 
      * @param {string} newSquare the new square that this chess piece will be moved to
@@ -42,42 +72,53 @@ export class ChessPiece {
         document.querySelector(`#${oldSquare}`).textContent = '';
 
         //declare that the OLD square is no longer occupied
-        document.querySelector(`#${oldSquare}`).classList.remove('occupied');
+        this.makeEmpty(oldSquare);
         //declare that the NEW square is now occupied
-        document.querySelector(`#${newSquare}`).classList.add('occupied');
+        this.makeOccupied(newSquare);
 
         //update the location stored in this object
         this.location = newSquare;
+
+        feedback.textContent = 'Successfully moved a chess piece to new location';
+        console.log('Successfully moved a chess piece to new location');
     }
 
-    /**
+    /**---------------------------------------------------------------------------------------------------------------------------------------
      * Checks the requested newSquare, to see if this ChessPiece can actually move there
      * 
      * @param {string} newSquare the location which we want to check that this piece is allowed to move to
      * @return boolean true if the ChessPiece can move there, false otherwise
      */
     canMove(newSquare) {
-        if(!isValidSquare(newSquare)){
+        //if new square is invalid
+        if (!SQUARE_METHODS.IsValidSquare(newSquare)) {
+            feedback.textContent = `Error: the square ${newSquare} does not exist`;
+            console.log(`Error: the square ${newSquare} does not exist`);
             return false; //you cannot move to an invalid square
         }
-                
-        if (newSquare === this.location) {//if the user tries to move 0 spaces
-            console.log('You cannot move 0 spaces!');
+
+        //if the user tries to move 0 spaces
+        if (newSquare === this.location) {
+            feedback.textContent = 'Error: you cannot move 0 spaces';
+            console.log('Error: you cannot move 0 spaces');
             return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
         }
 
-        if (!document.querySelector(`#${newSquare}`).classList.contains('occupied')) {//if newSquare is empty -- new square is NOT occupied
-            console.log('You successfully moved to an empty square');
+        //if new square is empty
+        if (!this.isOccupied(newSquare)) {
             return true;
         }
 
-        if (this.pieceID[0] != document.querySelector(`#${newSquare}`).textContent[0]) {//if new square has an enemy on it -- the teams are opposite
-            console.log('Enemy captured!');
-            return true;
-        } 
-        else { //the destination square has a player of our team on it
-            console.log('You cannot capture your own pieces!');
-            return false;//can't capture our own players!
+        //if new square has an ally on it -- the teams are same
+        if (this.pieceID[0] === document.querySelector(`#${newSquare}`).textContent[0]) {
+            feedback.textContent = 'Error: you cannot capture your own pieces';
+            console.log('Error: you cannot capture your own pieces');
+            return false; //can't capture our own players!
+
         }
+        // else the destination square has an enemy on it
+        feedback.textContent = 'Attempting to capture an enemy';
+        console.log('Attempting to capture an enemy');
+        return true;
     }
 }

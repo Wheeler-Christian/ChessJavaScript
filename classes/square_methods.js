@@ -1,26 +1,26 @@
 //this javascript code is used to calculate stuff with squares, as in distance between squares and such
 
-//number to letter 1    2    3    4    5    6    7    8
-num2alpha = ['Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+//number to letter  0    1    2    3    4    5    6    7    8
+const num2alpha = ['Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 /**
  * Determines whether the given string is a valid square on the chess board
  * @param square a string representing the square
  * @returns true if valid square, false if invalid
  */
-const IsValidSquare = square => {
+export function IsValidSquare(square) {
     //is the length of the string valid?
-    if(square.length != 2){
+    if (square.length != 2) {
         return false;
     }
     //is the column valid?
     let column = square[0];
-    if(column < 'A' || column > 'H'){
+    if (column < 'A' || column > 'H') {
         return false;
     }
     //is the row valid?
     let row = Number(square[1]);
-    if(Object.is(row, NaN) || row < 1 || row > 8){
+    if (Object.is(row, NaN) || row < 1 || row > 8) {
         return false;
     }
     //it passed all my checks, so it is a valid square
@@ -33,7 +33,7 @@ const IsValidSquare = square => {
  * @param square2 a string representing the destination square
  * @returns the distance between the two COLUMNS
  */
-const DeltaX = (square1, square2) => {
+export function DeltaX(square1, square2) {
     //let column1 = num2alpha.indexOf(square1[0]);//get the COLUMN of square1 and convert it to a number
     //let column2 = num2alpha.indexOf(square2[0]);//get the COLUMN of square2 and convert it to a number
     //return Math.abs(column2 - column1);
@@ -46,7 +46,7 @@ const DeltaX = (square1, square2) => {
  * @param square2 a string representing the destination square
  * @returns the distance between the two ROWS
  */
-const DeltaY = (square1, square2) => {
+export function DeltaY(square1, square2) {
     //let row1 = square1[1];//get the ROW of square1
     //let row2 = square2[1];//get the ROW of square2
     //return Math.abs(row2 - row1);//return the distance between those two ROWS
@@ -65,8 +65,8 @@ const DeltaY = (square1, square2) => {
 *          positive if moving DOWN (DARK team)
 *          negative if moving UP (DARK team)
 */
-const DeltaY2 = (team, square1, square2) => {
-    if(team === 'light'){
+export function DeltaY2(team, square1, square2) {
+    if (team === 'light') {
         return square2[1] - square1[1];//return the distance between those two ROWS
     }
     //else team is dark
@@ -79,7 +79,7 @@ const DeltaY2 = (team, square1, square2) => {
  * @param square2 a string representing the destination square
  * @returns the diagonal distance between the two squares
  */
-const DeltaDiag = (square1, square2) => {
+export function DeltaDiag(square1, square2) {
     let dX = DeltaX(square1, square2);//find the x distance
     let dY = DeltaY(square1, square2);//find the y distance
     if (dX === dY) {//if DeltaX and DeltaY are the same, then it is a diagonal move
@@ -88,9 +88,5 @@ const DeltaDiag = (square1, square2) => {
     return -1;//else this is NOT a diagonal move
 }
 
-//exports
-module.exports.IsValidSquare = IsValidSquare;
-module.exports.DeltaX = DeltaX;
-module.exports.DeltaY = DeltaY;
-module.exports.DeltaY2 = DeltaY2;
-module.exports.DeltaDiag = DeltaDiag;
+
+

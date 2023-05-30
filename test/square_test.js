@@ -1,6 +1,6 @@
 let expect = require('chai').expect;
 
-//Test Suite IsValidSquare
+//----- Test Suite IsValidSquare -------------------------------------------------------------------------
 describe('square.IsValidSquare', () => {
     let IsValidSquare = require('../classes/square_methods').IsValidSquare;
 
@@ -31,7 +31,7 @@ describe('square.IsValidSquare', () => {
     });
 });
 
-//Test Suite DeltaX
+//----- Test Suite DeltaX -------------------------------------------------------------------------
 describe('square.DeltaX', () => {
     let DeltaX = require('../classes/square_methods').DeltaX;
 
@@ -60,7 +60,7 @@ describe('square.DeltaX', () => {
     });
 });
 
-//Test Suite DeltaY
+//----- Test Suite DeltaY -------------------------------------------------------------------------
 describe('square.DeltaY', () => {
     let DeltaY = require('../classes/square_methods').DeltaY;
 
@@ -89,7 +89,7 @@ describe('square.DeltaY', () => {
     });
 });
 
-//Test Suite DeltaY2
+//----- Test Suite DeltaY2 -------------------------------------------------------------------------
 describe('square.DeltaY2', () => {
     let DeltaY2 = require('../classes/square_methods').DeltaY2;
 
@@ -146,7 +146,7 @@ describe('square.DeltaY2', () => {
     });
 });
 
-//Test Suite DeltaDiag
+//----- Test Suite DeltaDiag -------------------------------------------------------------------------
 describe('square.DeltaDiag', () => {
     let DeltaDiag = require('../classes/square_methods').DeltaDiag;
 
@@ -192,5 +192,5 @@ describe('square.DeltaDiag', () => {
             expect(DeltaDiag(testCase.square1, testCase.square2)).to.be.equal(-1);
         });
     });
-
 });
+

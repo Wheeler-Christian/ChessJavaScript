@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
 
     <script type="module" src="main.js"></script>
+    <script type="module" src="./classes/chess_piece.js"></script>
+    <script type="module" src="./classes/square_methods.js"></script>
 </head>
 
 <body>
@@ -303,11 +305,13 @@
     <div id="form-wrapper">
         <form>
             <label for="movePiece">Piece to move:</label><br>
-            <input type="text" id="movePiece" name="movePiece" value="LR1"><br>
+            <input type="text" id="movePiece" name="movePiece" value="LP1"><br>
             <label for="newLocation">Destination:</label><br>
-            <input type="text" id="newLocation" name="newLocation" value="A6"><br><br>
+            <input type="text" id="newLocation" name="newLocation" value="A3"><br><br>
             <input type="submit" value="Submit" id="btnMove">
+            <p id="feedback">feedback</p>
         </form>
     </div>
+
 </body>
 </html>
