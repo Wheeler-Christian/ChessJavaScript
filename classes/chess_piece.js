@@ -13,6 +13,7 @@ export class ChessPiece {
         this.makeOccupied(location);
     }
 
+    //used to tell the user whether their move was accepted
     feedback = document.querySelector('#feedback');
 
     //getters
@@ -24,7 +25,10 @@ export class ChessPiece {
     //setters -- dummy functions -- delete later
     setTeam(newTeam) { this.team = newTeam; }
     setLocation(newLocation) { this.location = newLocation; }
+
+    //for giving the user feedback on whether their move was successful
     setFeedback(text) {this.feedback.textContent = text; }
+    //appendFeedback(text) {this.feedback.textContent += text; }
 
     /**---------------------------------------------------------------------------------------------------------------------------------------
      * 
@@ -79,8 +83,7 @@ export class ChessPiece {
         //update the location stored in this object
         this.location = newSquare;
 
-        feedback.textContent = 'Successfully moved a chess piece to new location';
-        console.log('Successfully moved a chess piece to new location');
+        this.setFeedback(`Successfully moved chess piece ${this.pieceID} to ${this.location}`);
     }
 
     /**---------------------------------------------------------------------------------------------------------------------------------------
@@ -92,15 +95,13 @@ export class ChessPiece {
     canMove(newSquare) {
         //if new square is invalid
         if (!SQUARE_METHODS.IsValidSquare(newSquare)) {
-            feedback.textContent = `Error: the square ${newSquare} does not exist`;
-            console.log(`Error: the square ${newSquare} does not exist`);
+            this.setFeedback(`Error: the square ${newSquare} does not exist`);
             return false; //you cannot move to an invalid square
         }
 
         //if the user tries to move 0 spaces
         if (newSquare === this.location) {
-            feedback.textContent = 'Error: you cannot move 0 spaces';
-            console.log('Error: you cannot move 0 spaces');
+            this.setFeedback('Error: you cannot move 0 spaces');
             return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
         }
 
@@ -111,14 +112,12 @@ export class ChessPiece {
 
         //if new square has an ally on it -- the teams are same
         if (this.pieceID[0] === document.querySelector(`#${newSquare}`).textContent[0]) {
-            feedback.textContent = 'Error: you cannot capture your own pieces';
-            console.log('Error: you cannot capture your own pieces');
+            this.setFeedback('Error: you cannot capture your own pieces');
             return false; //can't capture our own players!
 
         }
         // else the destination square has an enemy on it
-        feedback.textContent = 'Attempting to capture an enemy';
-        console.log('Attempting to capture an enemy');
+        //this.appendFeedback('Attempting to capture an enemy');
         return true;
     }
 }

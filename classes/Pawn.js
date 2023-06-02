@@ -3,7 +3,13 @@ import { ChessPiece } from "./chess_piece.js";
 import * as SQUARE_METHODS from './square_methods.js';
 
 export class Pawn extends ChessPiece {
-    //default constructor
+    /**
+     * Pawn constructor
+     * @param {string} pieceID 
+     * @param {string} team 
+     * @param {string} location 
+     * @param {string} image 
+     */
     constructor(pieceID, team, location, image) {
         super(pieceID, team, location, image);
         this.isFirstMove = true;
@@ -67,47 +73,43 @@ export class Pawn extends ChessPiece {
     canMove(dest) {
         console.log('Pawn.canMove()');
         if (!super.canMove(dest)) {
-            //if super says false, then false
+            //if super says no, then no
             return false;
         }
-        if (super.isOccupied(dest)) { //is the dest occupied?
+        if (this.isOccupied(dest)) { //is the destination occupied?
             if (this.isAttack(dest)) { //is it an attack move?
-                
-                this.setFeedback(`Attacking square ${dest}`);
+                //this.setFeedback(`Attacking square ${dest}`);
                 return true;
             }
             //else not an attack move
             this.setFeedback("Error: a pawn's attack must be a forward diagonal move of distance 1");
             return false;
         }
+        //else the destination is not occupied
         if (this.isPassive1(dest)) { //is it a passive1 move?
-            this.setFeedback(`Peacefully moving to square ${dest}`); //passive moves are allowed to empty squares
+            //this.setFeedback(`Peacefully moving to square ${dest}`); //passive moves are allowed to empty squares
             return true;
         }
-        if (this.isPassive2(dest)) { //is it a passive2 move?
-            if (this.isFirstMove) { //Passive2 moves are only allowed on the first move for that pawn
-                const path = this.forward1(super.getTeam(), super.getLocation());
-                if (super.isOccupied(path)) { //is the path obstructed?
-                    this.setFeedback(`The path is obstructed because square ${path} is occupied`);
-                    return false;
-                }
-                else { //else the path is clear
-                    this.setFeedback(`The path is clear because ${path} is empty`);
-                    return true;
-                }
-            }
-            else { //not first move, passive2 is not allowed
-                this.setFeedback('Error: pawn can move two spaces only on its first move');
-                return false;
-            }
-        } 
-        else {
-            this.setFeedback(`Error: you cannot move Pawn ${this.getPieceID()} to ${dest}`);
-            return false;
+        if (!this.isPassive2(dest)) { //is this NOT a passive2 move?
+            this.setFeedback(`Error: you cannot move Pawn ${this.getPieceID()} to ${dest}. The Pawn has three possible moves: (1) Diagonal attack distance 1, (2) 
+            Straight-forward peaceful distance 1, and (3) Straight-forward peaceful distance 2.`);
+            return false; //the move did not match any of the 3 categories
+
         }
-
-
-
+        //else this is a passive 2 move
+        if (!this.isFirstMove) { //is this NOT the first move for this pawn?
+            this.setFeedback('Error: a pawn may move 2 spaces, but only on its first move');
+            return false; //not first move, passive2 is not allowed
+        }
+        //else it is the pawn's first move
+        const path = this.forward1(this.getTeam(), this.getLocation()); //find the square in front of this pawn
+        if(this.isOccupied(path)) { //is the path obstructed?
+            this.setFeedback(`The path is obstructed because square ${path} is occupied`);
+            return false; //the path is obstructed, so this move is not allowed
+        }
+        //else the path is clear
+        //this.setFeedback(`The path is clear because ${path} is empty`);
+        return true;
     }
 
     /**
