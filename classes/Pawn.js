@@ -1,5 +1,4 @@
 import { ChessPiece } from "./chess_piece.js";
-//import * as PAWN_METHODS from './pawn_methods.js';
 import * as SQUARE_METHODS from './square_methods.js';
 
 export class Pawn extends ChessPiece {
@@ -12,27 +11,36 @@ export class Pawn extends ChessPiece {
      */
     constructor(pieceID, team, location, image) {
         super(pieceID, team, location, image);
-        this.isFirstMove = true;
     }
 
     /**
      * 
-     * @param {string} dest the square we want to move the Pawn to
-     * @returns true if that is an attack move; false otherwise
+     * @returns 1 if the team is light; -1 if the team is dark
+     * this is useful because for light pieces, forward means up/north
+     * while for dark pieces, forward means down/south
      */
-    isAttack(dest) {
-        if (SQUARE_METHODS.DeltaY2(this.getTeam(), this.getLocation(), dest) === 1) { //if the pawn is moving forward 1
-            return SQUARE_METHODS.DeltaDiag(this.getLocation(), dest) === 1; //if delta diag is 1, then this is attack move
+    getSign() {
+        return this.getTeam() === 'light' ? 1 : -1;
+    }
+
+    /**
+     * determines whether it is this pawn's first move
+     * @returns true if it is the pawn's first move
+     *          false otherwise
+     */
+    isFirstMove() {
+        if (this.getTeam() === 'light') {
+            return this.location[1] === '2';
         }
-        else return false; //if not moving forward one, not an attack move
+        //else this.getTeam() === 'dark'
+        return this.location[1] === '7';
     }
 
     /**
      * Determines whether this is a Passive1 move -- by calling pawn_methods.isPassive1()
      */
     isPassive1(dest) {
-        //return PAWN_METHODS.isPassive1(this.getTeam(), this.getLocation(), dest);
-        if (SQUARE_METHODS.DeltaY2(this.getTeam(), this.getLocation(), dest) === 1) { //if the pawn is moving forward 1
+        if (SQUARE_METHODS.DeltaY(this.getLocation(), dest) === 1 * this.getSign()) { //if the pawn is moving forward 1?
             return SQUARE_METHODS.DeltaX(this.getLocation(), dest) === 0; //if delta x is 0, then this is passive move
         }
         else return false; //if not moving forward o1ne, not a Passive1 move
@@ -42,18 +50,29 @@ export class Pawn extends ChessPiece {
      * Determines whether this is a Passive2 move -- by calling pawn_methods.isPassive2()
      */
     isPassive2(dest) {
-        //return PAWN_METHODS.isPassive2(this.getTeam(), this.getLocation(), dest);
-        if (SQUARE_METHODS.DeltaY2(this.getTeam(), this.getLocation(), dest) === 2) { //if the pawn is moving forward 2
+        if (SQUARE_METHODS.DeltaY(this.getLocation(), dest) === 2 * this.getSign()) { //if the pawn is moving forward 2?
             return SQUARE_METHODS.DeltaX(this.getLocation(), dest) === 0; //if delta x is 0, then this is passive move
         }
         else return false; //if not moving forward 2, not a Passive2 move
     }
 
     /**
-     * forward1
+ * 
+ * @param {string} dest the square we want to move the Pawn to
+ * @returns true if that is an attack move; false otherwise
+ */
+    isAttack(dest) {
+        if (SQUARE_METHODS.DeltaY(this.getLocation(), dest) === 1 * this.getSign()) { //if the pawn is moving forward 1
+            return SQUARE_METHODS.DeltaDiag(this.getLocation(), dest) === 1; //if delta diag is 1, then this is attack move
+        }
+        else return false; //if not moving forward one, not an attack move
+    }
+
+    /**
+     * calcForward1
      * @returns the new location if the chess piece moved forward 1 space
      */
-    forward1(team, square) {
+    calcForward1(team, square) {
         const col = square[0];
         let row = Number(square[1]);
         if (team === 'light') {
@@ -66,60 +85,81 @@ export class Pawn extends ChessPiece {
     }
 
     /**
-     * canMove
-     * @param {string} dest the new square that we want to move to
-     * @returns true if the Pawn is allowed to move there, false otherwise
+     * 
+     * @param {string} newSquare the square we want to move this pawn to
+     * @param {Set<string>} occupiedSquares the squares which are occupied
      */
-    canMove(dest) {
-        console.log('Pawn.canMove()');
-        if (!super.canMove(dest)) {
-            //if super says no, then no
-            return false;
+    canMove(newSquare, occupiedSquares) {
+        if (!super.canMove(newSquare)) {
+            return false; //if super says no, then no
         }
-        if (this.isOccupied(dest)) { //is the destination occupied?
-            if (this.isAttack(dest)) { //is it an attack move?
-                //this.setFeedback(`Attacking square ${dest}`);
+        const cm2 = this.canMove2(newSquare);
+        switch (cm2) {
+            case 201: //is it a passive1 move? -----
+                if (this.isOccupied(newSquare)) { //if the destination is occupied
+                    this.setFeedback('Error: for a pawn to do a linear passive move, the target square must be empty');
+                    return false;
+                }
+                //else empty
                 return true;
-            }
-            //else not an attack move
-            this.setFeedback("Error: a pawn's attack must be a forward diagonal move of distance 1");
-            return false;
+            case 202: //is it a passive2 move? -----
+                if (this.isOccupied(newSquare)) { //if the destination is occupied
+                    this.setFeedback('Error: for a pawn to do a linear passive move, the target square must be empty');
+                    return false;
+                }
+                //else empty
+                const path = this.calcForward1(this.getTeam(), this.getLocation()); //find the square in front of this pawn
+                if (this.isOccupied(path)) { //is the path obstructed?
+                    this.setFeedback(`The path is obstructed because square ${path} is occupied`);
+                    return false; //the path is obstructed, so this move is not allowed
+                }
+                //else path is clear
+                return true;
+            case 203: //is it an attack move? -----
+                if (this.isOccupied(newSquare)) { //is the destination occupied?
+                    return true; //you may attack an occupied square
+                }
+                //else the destination is not occupied
+                this.setFeedback('Error: for a pawn to do a diagonal attack move, the target square must be occupied');
+                return false;
+            case 402: //is it a failed passive2 move, because not the first move? -----
+                this.setFeedback('Error: a pawn may move 2 spaces, but only on its first move');
+                return false;
+            case 404: //does this move fail for some other reason? -----
+                this.setFeedback(`Error: you cannot move Pawn ${this.getPieceID()} to ${newSquare}. The Pawn has three possible moves: (1) Diagonal attack distance 1, (2) Straight-forward peaceful distance 1, and (3) Straight-forward peaceful distance 2.`);
+                return false; //the move did not match any of the 3 categories
         }
-        //else the destination is not occupied
-        if (this.isPassive1(dest)) { //is it a passive1 move?
-            //this.setFeedback(`Peacefully moving to square ${dest}`); //passive moves are allowed to empty squares
-            return true;
-        }
-        if (!this.isPassive2(dest)) { //is this NOT a passive2 move?
-            this.setFeedback(`Error: you cannot move Pawn ${this.getPieceID()} to ${dest}. The Pawn has three possible moves: (1) Diagonal attack distance 1, (2) 
-            Straight-forward peaceful distance 1, and (3) Straight-forward peaceful distance 2.`);
-            return false; //the move did not match any of the 3 categories
-
-        }
-        //else this is a passive 2 move
-        if (!this.isFirstMove) { //is this NOT the first move for this pawn?
-            this.setFeedback('Error: a pawn may move 2 spaces, but only on its first move');
-            return false; //not first move, passive2 is not allowed
-        }
-        //else it is the pawn's first move
-        const path = this.forward1(this.getTeam(), this.getLocation()); //find the square in front of this pawn
-        if(this.isOccupied(path)) { //is the path obstructed?
-            this.setFeedback(`The path is obstructed because square ${path} is occupied`);
-            return false; //the path is obstructed, so this move is not allowed
-        }
-        //else the path is clear
-        //this.setFeedback(`The path is clear because ${path} is empty`);
-        return true;
     }
 
     /**
      * 
-     * @param {string} newSquare 
-     * calls the base function to move the pawn to the new square, 
-     * then updates the Pawn's "isFirstMove" boolean variable to false
+     * @param {string} newSquare the square to move to
+     * @returns 201 if isPassive1(newSquare) === true
+     *          202 if isPassive2(newSquare) === true and it is the first move
+     *          203 if isAttack(newSquare) === true
+     *          402 if isPassive2(newSquare) === true but it is NOT the first move
+     *          404 if none of the above are true
+     *          
+     * Helper function for the canMove() function
      */
-    move(newSquare) {
-        super.move(newSquare);
-        this.isFirstMove = false;
+    canMove2(newSquare) {
+        if (this.isPassive1(newSquare)) { //is it an attack move?
+            return 201; //attack successful
+        }
+        //else
+        if (this.isPassive2(newSquare)) { //is this a passive2 move?
+            if (this.isFirstMove()) { //is it the first move?
+                return 202; //passive2 successful
+            }
+            //else not first move
+            else return 402; //passive2 failed
+        }
+        //else
+        if (this.isAttack(newSquare)) //is it an attack move?
+        {
+            return 203; //attack successful
+        }
+        //else it is an invalid move
+        return 404;
     }
 }

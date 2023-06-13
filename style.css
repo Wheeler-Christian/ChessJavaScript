@@ -83,14 +83,6 @@ img{
     /*margin: 10%;*/
 }
 
-.occupied.light{
-    background-color: #C2C5AA;
-}
-
-.occupied.dark{
-    background-color: #444;
-}
-
 #bibliography{
     margin-top: 10px;
 }

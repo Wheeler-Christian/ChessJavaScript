@@ -5,7 +5,7 @@ const num2alpha = ['Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 /**
  * Determines whether the given string is a valid square on the chess board
- * @param square a string representing the square
+ * @param {string} square a string representing the square
  * @returns true if valid square, false if invalid
  */
 export function IsValidSquare(square) {
@@ -28,65 +28,203 @@ export function IsValidSquare(square) {
 }
 
 /**
- * Calculates the distance between the two squares in the x direction
- * @param square1 a string representing the source square
- * @param square2 a string representing the destination square
+* Computes the horizontal displacement when moving from square1 to square2
+ * @param {string} square1 a string representing the source square
+ * @param {string} square2 a string representing the destination square
  * @returns the distance between the two COLUMNS
+ *          Positive if moving East
+ *          Negative if moving West
  */
 export function DeltaX(square1, square2) {
-    //let column1 = num2alpha.indexOf(square1[0]);//get the COLUMN of square1 and convert it to a number
-    //let column2 = num2alpha.indexOf(square2[0]);//get the COLUMN of square2 and convert it to a number
-    //return Math.abs(column2 - column1);
-    return Math.abs(num2alpha.indexOf(square2[0]) - num2alpha.indexOf(square1[0]));//return the distance between those two COLUMNS
+    //                          column 2        minus          column 1
+    return num2alpha.indexOf(square2[0]) - num2alpha.indexOf(square1[0]);//return the distance between those two COLUMNS
 }
 
-/**DeltaY
- * Calculates the distance between the two squares in the y direction
- * @param square1 a string representing the source square
- * @param square2 a string representing the destination square
- * @returns the distance between the two ROWS
+/**
+* Computes the vertical displacement when moving from square1 to square2
+ * @param {string} square1 a string representing the source square
+ * @param {string} square2 a string representing the destination square
+ * @returns the distance between the two COLUMNS
+ *          Positive if moving North
+ *          Negative if moving South
  */
 export function DeltaY(square1, square2) {
-    //let row1 = square1[1];//get the ROW of square1
-    //let row2 = square2[1];//get the ROW of square2
-    //return Math.abs(row2 - row1);//return the distance between those two ROWS
-    return Math.abs(square2[1] - square1[1]);//return the distance between those two ROWS
-}
-
-/**DeltaY2
-* Similar to DeltaY, but allows for the possibility of NEGATIVE distance:
-* where the +/- depends on the team
-* @param team the team that this piece is on
-* @param square1 a string representing the source square
-* @param square2 a string representing the destination square
-* @returns the distance between the two ROWS
-*          positive if moving UP (LIGHT team)
-*          negative if moving DOWN (LIGHT team)
-*          positive if moving DOWN (DARK team)
-*          negative if moving UP (DARK team)
-*/
-export function DeltaY2(team, square1, square2) {
-    if (team === 'light') {
-        return square2[1] - square1[1];//return the distance between those two ROWS
-    }
-    //else team is dark
-    return square1[1] - square2[1];
+    //      Row2    minus  Row 1
+    return (square2[1] - square1[1]);//return the distance between those two ROWS
 }
 
 /**
  * Calculates the diagonal distance between the two squares
- * @param square1 a string representing the source square
- * @param square2 a string representing the destination square
+ * @param {string} square1 a string representing the source square
+ * @param {string} square2 a string representing the destination square
  * @returns the diagonal distance between the two squares
  */
 export function DeltaDiag(square1, square2) {
-    let dX = DeltaX(square1, square2);//find the x distance
-    let dY = DeltaY(square1, square2);//find the y distance
+    let dX = Math.abs(DeltaX(square1, square2));//find the x distance
+    let dY = Math.abs(DeltaY(square1, square2));//find the y distance
     if (dX === dY) {//if DeltaX and DeltaY are the same, then it is a diagonal move
         return dX;//return DeltaX, as this is the same as the diagonal distance
     }
     return -1;//else this is NOT a diagonal move
 }
 
+/**
+ * 
+ * @param {string} square1 the first square, where we start
+ * @param {string} square2 the second square, where we end up
+ * @returns 2 if path is north bound
+ * @returns 4 if path is east bound
+ * @returns 6 if path is south bound
+ * @returns 8 if path is west bound
+ * @returns 0 if the displacement between the two squares zero
+ * @returns -1 if path is not a cardinal direction
+ */
+export function isPathCardinal(square1, square2) {
+    const dx = DeltaX(square1, square2);
+    const dy = DeltaY(square1, square2);
+    if (dx === 0) {  //vertical?
+        if (dy > 0) { //going up?
+            return 2; //north
+        }
+        if (dy < 0) { //going down?
+            return 6; //south
+        }
+        return 0; //dy === 0; going nowhere
+    }
+    if (dy === 0) {  //horizontal?
+        if (dx > 0) { //going right?
+            return 4; //east
+        }
+        if (dx < 0) { //going left?
+            return 8; //west
+        }
+        return 0; //dx === 0; going nowhere
+    }
+    return -1; //not a cardinal direction
+}
 
+/**
+ * 
+ * @param {string} square1 the first square, where we start
+ * @param {string} square2 the second square, where we end up
+ * @returns 1 if path is headed northeast
+ * @returns 3 if path is southeast
+ * @returns 5 if path is southwest
+ * @returns 7 if path is northwest
+ * @returns 0 if one of the cardinal directions is zero
+ * @returns -1 if path is not an ordinal direction
+ */
+export function isPathOrdinal(square1, square2) {
+    const dx = DeltaX(square1, square2);
+    const dy = DeltaY(square1, square2);
+    if (dx === 0 || dy === 0) {
+        return 0; //one of the cardinal directions is zero
+    }
+    if (Math.abs(dx) !== Math.abs(dy)) { //if the cardinal scalar distances are not the same
+        return -1; //not ordinal
+    }
+    if (dx > 0) {  //going right?
+        if (dy > 0) { //going up?
+            return 1; //northeast
+        }
+        if (dy < 0) { //going down?
+            return 3; //southeast
+        }
+    }
+    if (dx < 0) {  //going left?
+        if (dy > 0) { //going up?
+            return 7; //northwest
+        }
+        if (dy < 0) { //going down?
+            return 5; //southwest
+        }
+    }
+}
 
+/**
+ * 
+ * @param {string} square1 the first square, where we start
+ * @param {string} square2 the second square, where we end up
+ * @param {number} direction the direction we are moving
+ * @returns {string[]}, representing the Cardinal path between the two
+ * This function assumes that the path given to it is Cardinal, so it does not check for that
+ */
+export function calcPathCardinal(square1, square2, direction) {
+    let array = [];
+    const C1 = num2alpha.indexOf(square1[0]);
+    const R1 = parseInt(square1[1]);
+    const C2 = num2alpha.indexOf(square2[0]);
+    const R2 = parseInt(square2[1]);
+
+    const COLUMN = (square1[0]);
+
+    switch (direction) {
+        case 2: //north
+            for (let row = R1 + 1; row < R2; row++) {
+                array.push(`${COLUMN}${row}`);
+            }
+            return array;
+        case 4: //east
+            for (let col = C1 + 1; col < C2; col++) {
+                array.push(`${num2alpha[col]}${R1}`);
+            }
+            return array;
+        case 6: //south
+            for (let row = R1 - 1; row > R2; row--) {
+                array.push(`${COLUMN}${row}`);
+            }
+            return array;
+        case 8: //west
+            for (let col = C1 - 1; col > C2; col--) {
+                array.push(`${num2alpha[col]}${R1}`);
+            }
+            return array;
+        default:
+            console.log('CRITICAL ERROR IN calcPathCardinal');
+            return [];
+    }
+}
+
+/**
+ * 
+ * @param {string} square1 the first square, where we start
+ * @param {string} square2 the second square, where we end up
+ * @param {number} direction the direction we are moving
+ * @returns an array, representing the Ordinal path between the two
+ * This function assumes that the path given to it is Ordinal, so it does not check for that
+ */
+export function calcPathOrdinal(square1, square2, direction) {
+    let array = [];
+    const C1 = num2alpha.indexOf(square1[0]);
+    const R1 = parseInt(square1[1]);
+    const C2 = num2alpha.indexOf(square2[0]);
+    const R2 = parseInt(square2[1]);
+
+    let col = C1;
+
+    switch (direction) {
+        case 1: //northeast
+            for (let row = R1 + 1; row < R2; row++) {
+                array.push(`${num2alpha[++col]}${row}`);
+            }
+            return array;
+        case 3: //southeast
+            for (let row = R1 - 1; row > R2; row--) {
+                array.push(`${num2alpha[++col]}${row}`);
+            }
+            return array;
+        case 5: //southwest
+            for (let row = R1 - 1; row > R2; row--) {
+                array.push(`${num2alpha[--col]}${row}`);
+            }
+            return array;
+        case 7: //northwest
+            for (let row = R1 + 1; row < R2; row++) {
+                array.push(`${num2alpha[--col]}${row}`);
+            }
+            return array;
+        default:
+            console.log('CRITICAL ERROR IN calcPathOrdinal');
+            return [];
+    }
+}

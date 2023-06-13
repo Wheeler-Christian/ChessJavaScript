@@ -1,16 +1,18 @@
-import * as SQUARE_METHODS from './square_methods.js';
+import * as SQUARE from './square_methods.js';
 
 export class ChessPiece {
     /**
-     * Creates an instance of ChessPiece
-     * Initialize all the fields
+     * ChessPiece constructor
+     * @param {string} pieceID 
+     * @param {string} team 
+     * @param {string} location, example 'A2'
+     * @param {string} image 
      */
     constructor(pieceID, team, location, image) {
         this.pieceID = pieceID;
         this.team = team;
         this.location = location;
         this.image = image;
-        this.makeOccupied(location);
     }
 
     //used to tell the user whether their move was accepted
@@ -30,32 +32,32 @@ export class ChessPiece {
     setFeedback(text) {this.feedback.textContent = text; }
     //appendFeedback(text) {this.feedback.textContent += text; }
 
-    /**---------------------------------------------------------------------------------------------------------------------------------------
-     * 
-     * @param {string} square 
-     * @returns true if the square is occupied, false otherwise
-     */
-     isOccupied(square) {
-        return document.querySelector(`#${square}`).classList.contains('occupied');
-    }
+    // /**---------------------------------------------------------------------------------------------------------------------------------------
+    //  * 
+    //  * @param {string} square 
+    //  * @returns true if the square is occupied, false otherwise
+    //  */
+    //  isOccupied(square) {
+    //     return document.querySelector(`#${square}`).classList.contains('occupied');
+    // }
 
-    /**---------------------------------------------------------------------------------------------------------------------------------------
-     * 
-     * @param {string} square 
-     * @returns true if the square is occupied, false otherwise
-     */
-     makeOccupied(square) {
-        document.querySelector(`#${square}`).classList.add('occupied');
-    }
+    // /**---------------------------------------------------------------------------------------------------------------------------------------
+    //  * 
+    //  * @param {string} square 
+    //  * @returns true if the square is occupied, false otherwise
+    //  */
+    //  makeOccupied(square) {
+    //     document.querySelector(`#${square}`).classList.add('occupied');
+    // }
 
-    /**---------------------------------------------------------------------------------------------------------------------------------------
-     * 
-     * @param {string} square 
-     * @returns true if the square is occupied, false otherwise
-     */
-    makeEmpty(square) {
-        document.querySelector(`#${square}`).classList.remove('occupied');
-    }
+    // /**---------------------------------------------------------------------------------------------------------------------------------------
+    //  * 
+    //  * @param {string} square 
+    //  * @returns true if the square is occupied, false otherwise
+    //  */
+    // makeEmpty(square) {
+    //     document.querySelector(`#${square}`).classList.remove('occupied');
+    // }
 
     /**---------------------------------------------------------------------------------------------------------------------------------------
      * Moves this ChessPiece object from the current location to the new location, by updating the location field
@@ -76,9 +78,9 @@ export class ChessPiece {
         document.querySelector(`#${oldSquare}`).textContent = '';
 
         //declare that the OLD square is no longer occupied
-        this.makeEmpty(oldSquare);
+        //this.makeEmpty(oldSquare);
         //declare that the NEW square is now occupied
-        this.makeOccupied(newSquare);
+        //this.makeOccupied(newSquare);
 
         //update the location stored in this object
         this.location = newSquare;
@@ -90,11 +92,12 @@ export class ChessPiece {
      * Checks the requested newSquare, to see if this ChessPiece can actually move there
      * 
      * @param {string} newSquare the location which we want to check that this piece is allowed to move to
+     * @param {Set<string>} occupiedSquares the squares which are occupied
      * @return boolean true if the ChessPiece can move there, false otherwise
      */
-    canMove(newSquare) {
+    canMove(newSquare, occupiedSquares) {
         //if new square is invalid
-        if (!SQUARE_METHODS.IsValidSquare(newSquare)) {
+        if (!SQUARE.IsValidSquare(newSquare)) {
             this.setFeedback(`Error: the square ${newSquare} does not exist`);
             return false; //you cannot move to an invalid square
         }
@@ -106,7 +109,12 @@ export class ChessPiece {
         }
 
         //if new square is empty
-        if (!this.isOccupied(newSquare)) {
+        // if (!this.isOccupied(newSquare)) {
+        //     return true;
+        // }
+
+        //if new square is empty
+        if(!occupiedSquares.has(newSquare)){
             return true;
         }
 
@@ -117,7 +125,6 @@ export class ChessPiece {
 
         }
         // else the destination square has an enemy on it
-        //this.appendFeedback('Attempting to capture an enemy');
         return true;
     }
 }
