@@ -1,6 +1,10 @@
 //Import the external classes vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 import { Pawn } from './classes/pawn.js';
 import { Rook } from './classes/rook.js';
+import { Knight } from './classes/knight.js';
+import { Bishop } from './classes/bishop.js';
+import { Queen } from './classes/queen.js';
+import { King } from './classes/king.js';
 //Import the external classes ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 //to convert letters to numbers -- Z is a dummy value -- so the indeces of the letters line up with the numbering on the board
@@ -14,9 +18,14 @@ let occupiedSquares = new Set();
 let chessPieces = new Map();
 
 chessPieces.set('DR2', new Rook('DR2', 'dark', 'A8', 'images/dark-rook.png'));
-//chessPieces.get('DR2').makeOccupied('A8');
+chessPieces.set('DN2', new Knight('DN2', 'dark', 'B8', 'images/dark-knight.png'));
+chessPieces.set('DB2', new Bishop('DB2', 'dark', 'C8', 'images/dark-bishop.png'));
+chessPieces.set('DQ', new Queen('DQ', 'dark', 'D8', 'images/dark-queen.png'));
+chessPieces.set('DK', new King('DK', 'dark', 'E8', 'images/dark-king.png'));
+chessPieces.set('DB1', new Bishop('DB1', 'dark', 'F8', 'images/dark-bishop.png'));
+chessPieces.set('DN1', new Knight('DN1', 'dark', 'G8', 'images/dark-knight.png'));
 chessPieces.set('DR1', new Rook('DR1', 'dark', 'H8', 'images/dark-rook.png'));
-//chessPieces.get('DR1').makeOccupied('H8');
+
 
 //loops through 8 times -- one for each pawn
 for (let col = 0; col < NUM_COLS; col++) {
@@ -33,13 +42,16 @@ for (let col = 0; col < NUM_COLS; col++) {
     const ID = `LP${col + 1}`;
     const LOCATION = `${num2alpha[col + 1]}2`;
     chessPieces.set(ID, new Pawn(ID, 'light', LOCATION, 'images/light-pawn.png'));
-    //chessPieces.get(ID).makeOccupied(LOCATION);
 }
 
 chessPieces.set('LR1', new Rook('LR1', 'light', 'A1', 'images/light-rook.png'));
-//chessPieces.get('LR1').makeOccupied('A1');
+chessPieces.set('LN1', new Knight('LN1', 'light', 'B1', 'images/light-knight.png'));
+chessPieces.set('LB1', new Bishop('LB1', 'light', 'C1', 'images/light-bishop.png'));
+chessPieces.set('LQ', new Queen('LQ', 'light', 'D1', 'images/light-queen.png'));
+chessPieces.set('LK', new King('LK', 'light', 'E1', 'images/light-king.png'));
+chessPieces.set('LB2', new Bishop('LB2', 'light', 'F1', 'images/light-bishop.png'));
+chessPieces.set('LN2', new Knight('LN2', 'light', 'G1', 'images/light-knight.png'));
 chessPieces.set('LR2', new Rook('LR2', 'light', 'H1', 'images/light-rook.png'));
-//chessPieces.get('LR2').makeOccupied('H1');
 //Create the ChessPiece objects, and store them in a Map data structure vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 chessPieces.forEach(chessPiece => {
@@ -50,7 +62,7 @@ chessPieces.forEach(chessPiece => {
     let currentLocation = `#${chessPiece.getLocation()}`;
     document.querySelector(currentLocation).textContent = chessPiece.getPieceID();
     document.querySelector(currentLocation).appendChild(element);
-    occupiedSquares.add(chessPiece.getLocation());
+    occupiedSquares.add(chessPiece.getLocation());//occupy the starting location
 });
 
 //Once I create all the ChessPiece objects, place them on the board ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

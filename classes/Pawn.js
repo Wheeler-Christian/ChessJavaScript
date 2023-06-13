@@ -90,33 +90,33 @@ export class Pawn extends ChessPiece {
      * @param {Set<string>} occupiedSquares the squares which are occupied
      */
     canMove(newSquare, occupiedSquares) {
-        if (!super.canMove(newSquare)) {
+        if (!super.canMove(newSquare, occupiedSquares)) {
             return false; //if super says no, then no
         }
         const cm2 = this.canMove2(newSquare);
         switch (cm2) {
             case 201: //is it a passive1 move? -----
-                if (this.isOccupied(newSquare)) { //if the destination is occupied
+                if (occupiedSquares.has(newSquare)) { //if the destination is occupied
                     this.setFeedback('Error: for a pawn to do a linear passive move, the target square must be empty');
                     return false;
                 }
                 //else empty
                 return true;
             case 202: //is it a passive2 move? -----
-                if (this.isOccupied(newSquare)) { //if the destination is occupied
+                if (occupiedSquares.has(newSquare)) { //if the destination is occupied
                     this.setFeedback('Error: for a pawn to do a linear passive move, the target square must be empty');
                     return false;
                 }
                 //else empty
                 const path = this.calcForward1(this.getTeam(), this.getLocation()); //find the square in front of this pawn
-                if (this.isOccupied(path)) { //is the path obstructed?
+                if (occupiedSquares.has(path)) { //is the path obstructed?
                     this.setFeedback(`The path is obstructed because square ${path} is occupied`);
                     return false; //the path is obstructed, so this move is not allowed
                 }
                 //else path is clear
                 return true;
             case 203: //is it an attack move? -----
-                if (this.isOccupied(newSquare)) { //is the destination occupied?
+                if (occupiedSquares.has(newSquare)) { //is the destination occupied?
                     return true; //you may attack an occupied square
                 }
                 //else the destination is not occupied

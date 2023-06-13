@@ -1,7 +1,7 @@
 import { ChessPiece } from "./chess_piece.js";
 import * as SQUARE from './square_methods.js';
 
-export class Rook extends ChessPiece {
+export class Bishop extends ChessPiece {
     /**
      * Pawn constructor
      * @param {string} pieceID 
@@ -22,13 +22,13 @@ export class Rook extends ChessPiece {
         if (!super.canMove(target, occupiedSquares)) {
             return false; //if super says no, then no
         }
-        const cardinalDir = SQUARE.isPathCardinal(this.location, target);
-        if(cardinalDir <= 0){ //if the direction is NOT cardinal
-            this.setFeedback('The rook must move in a cardinal direction: North, East, South, or West');
+        const ordinalDir = SQUARE.isPathOrdinal(this.location, target);
+        if(ordinalDir <= 0){ //if the direction is NOT ordinal
+            this.setFeedback('The bishop must move in an ordinal direction: Northeast, Southeast, Southwest, or Northwest');
             return false;
         }
-        //else path is cardinal
-        const path = SQUARE.calcPathCardinal(this.location, target, cardinalDir);//get the path
+        //else path is ordinal
+        const path = SQUARE.calcPathOrdinal(this.location, target, ordinalDir);//get the path
 
         return this.validatePath(path, occupiedSquares);//validate the path
     }

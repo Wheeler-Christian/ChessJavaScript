@@ -127,4 +127,23 @@ export class ChessPiece {
         // else the destination square has an enemy on it
         return true;
     }
+
+    /**
+     * 
+     * @param {string[]} path the path of squares that we want to travel on
+     * @param {Set<string>} occupiedSquares the squares that are currently occupied
+     * @returns true if all the squares in the path are empty
+     * @returns false if any of the squares in the path are occupied
+     */
+    validatePath(path, occupiedSquares){
+        let pathIsClear = true;//assume the path is clear until we discover otherwise
+        path.forEach(square => { //check each square in the path
+            if(occupiedSquares.has(square)){ //is that square occupied?
+                this.setFeedback(`Error: the pathway is obstructed because ${square} is occupied`);
+                pathIsClear = false; //we found an obstruction
+                return; //if it is occupied, stop searching
+            }
+        });
+        return pathIsClear;//return whether the path is clear
+    }
 }
