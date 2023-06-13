@@ -74,8 +74,8 @@ btnMove.addEventListener('click', e => {
     let chessPiece = chessPieces.get(pieceID);//get the chessPiece object to be moved
     let newLocation = document.querySelector('#newLocation').value.trim().toUpperCase();//get the new location from the input, trimmed and upper case
     if (chessPiece.canMove(newLocation, occupiedSquares)) {//if this chess piece is allowed to move there
-        chessPiece.move(newLocation);//move it there
         occupiedSquares.delete(chessPiece.getLocation);//de-occupy the old location
+        chessPiece.move(newLocation);//move it to the new location
         occupiedSquares.add(newLocation);//occupy the new location
     }
 });
