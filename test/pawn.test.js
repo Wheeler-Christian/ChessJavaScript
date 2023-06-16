@@ -107,23 +107,60 @@ describe('pawn.isAttack() function', () => {
 
 // =============== Test Suite canMove2 =======================================================================================================================================
 describe('pawn.canMove2() function', () => {
+    //test cases for TRUE
     let testCases = [
-        { team: 'light', oldSquare: 'B7', newSquare: 'B8', result: 201 },
-        { team: 'light', oldSquare: 'A2', newSquare: 'A4', result: 202 },
-        { team: 'light', oldSquare: 'C5', newSquare: 'D6', result: 203 },
-        { team: 'light', oldSquare: 'F3', newSquare: 'F5', result: 402 },
-        { team: 'light', oldSquare: 'E3', newSquare: 'E6', result: 404 },
-        { team: 'dark', oldSquare: 'H4', newSquare: 'H3', result: 201 },
-        { team: 'dark', oldSquare: 'G7', newSquare: 'G5', result: 202 },
-        { team: 'dark', oldSquare: 'F5', newSquare: 'E4', result: 203 },
-        { team: 'dark', oldSquare: 'A6', newSquare: 'A4', result: 402 },
-        { team: 'dark', oldSquare: 'C5', newSquare: 'B3', result: 404 }
+        { team: 'light', oldSquare: 'B7', newSquare: 'B8', occArr: ['B7'] }, //passive1 move successful
+        { team: 'light', oldSquare: 'A2', newSquare: 'A4', occArr: ['A1', 'H1'] }, //passive 2 successful
+        { team: 'light', oldSquare: 'C5', newSquare: 'D6', occArr: ['D6', 'A1'] }, //attack successful
+        { team: 'dark', oldSquare: 'H4', newSquare: 'H3', occArr: ['G3', 'H2', 'H4'] }, //passive1 successful
+        { team: 'dark', oldSquare: 'G7', newSquare: 'G5', occArr: ['G7'] }, //passsive2 successful
+        { team: 'dark', oldSquare: 'F5', newSquare: 'E4', occArr: ['E4'] }, //attack successful
+
     ];
 
     testCases.forEach(tc => {
         let pawn = new Pawn('ID', tc.team, tc.oldSquare, 'IMAGE');
-        it(`should say pawn.canMove2(${tc.newSquare}) === ${tc.result}`, () => {
-            chai.expect(pawn.canMove2(tc.newSquare)).to.equal(tc.result);
+        let occSet = new Set(tc.occArr);
+        it(`should say pawn.canMove2(${tc.newSquare}) === true`, () => {
+            chai.expect(pawn.canMove2(tc.newSquare, occSet)).to.be.ok;
+        });
+    });
+
+    //test cases for FALSE
+    testCases = [
+        { team: 'light', oldSquare: 'C2', newSquare: 'D2', occArr: [] }, //cannot move horizontally
+        { team: 'light', oldSquare: 'C2', newSquare: 'D1', occArr: ['D1'] }, //cannot move backward
+        { team: 'light', oldSquare: 'C2', newSquare: 'C1', occArr: [] }, //cannot move backward
+        { team: 'light', oldSquare: 'C2', newSquare: 'B1', occArr: ['B1'] }, //cannot move backward
+        { team: 'light', oldSquare: 'C2', newSquare: 'B2', occArr: [] }, //cannot move horizontally
+        { team: 'light', oldSquare: 'C2', newSquare: 'B3', occArr: [] }, //cannot attack an empty square
+        { team: 'light', oldSquare: 'C2', newSquare: 'C3', occArr: ['C3'] }, //cannot do passive1 move to occupied square
+        { team: 'light', oldSquare: 'C2', newSquare: 'D3', occArr: [] }, //cannot attack an empty square
+        { team: 'light', oldSquare: 'C2', newSquare: 'C4', occArr: ['C4'] }, //cannot do passive2 move to occupied square
+        { team: 'light', oldSquare: 'D3', newSquare: 'D5', occArr: [] }, //cannot do passive2, not first turn
+        { team: 'light', oldSquare: 'C2', newSquare: 'C4', occArr: ['C3'] }, //path obstructed, cannot do passive2
+        { team: 'light', oldSquare: 'C2', newSquare: 'C5', occArr: [] }, //too far passive distance = 3
+        { team: 'light', oldSquare: 'D3', newSquare: 'B5', occArr: ['B5'] }, //too far attack distance = 2
+        { team: 'dark', oldSquare: 'E7', newSquare: 'D7', occArr: [] }, //cannot move horizontally
+        { team: 'dark', oldSquare: 'E7', newSquare: 'D8', occArr: ['D8'] }, //cannot move backward
+        { team: 'dark', oldSquare: 'E7', newSquare: 'E8', occArr: [] }, //cannot move backward
+        { team: 'dark', oldSquare: 'E7', newSquare: 'F8', occArr: ['F8'] }, //cannot move backward
+        { team: 'dark', oldSquare: 'E7', newSquare: 'F7', occArr: [] }, //cannot move horizontally
+        { team: 'dark', oldSquare: 'E7', newSquare: 'F6', occArr: [] }, //cannot attack an empty square
+        { team: 'dark', oldSquare: 'E7', newSquare: 'E6', occArr: ['E6'] }, //cannot do passive1 move to occupied square
+        { team: 'dark', oldSquare: 'E7', newSquare: 'D6', occArr: [] }, //cannot attack an empty square
+        { team: 'dark', oldSquare: 'E7', newSquare: 'E5', occArr: ['E5'] }, //cannot do passive2 move to occupied square
+        { team: 'dark', oldSquare: 'H6', newSquare: 'H4', occArr: [] }, //cannot do passive2, not first turn
+        { team: 'dark', oldSquare: 'E7', newSquare: 'E5', occArr: ['E6'] }, //path obstructed, cannot do passive2
+        { team: 'dark', oldSquare: 'E7', newSquare: 'E3', occArr: [] }, //too far passive distance = 3
+        { team: 'dark', oldSquare: 'E7', newSquare: 'G5', occArr: ['G5'] }, //too far attack distance = 2
+    ];
+
+    testCases.forEach(tc => {
+        let pawn = new Pawn('ID', tc.team, tc.oldSquare, 'IMAGE');
+        let occSet = new Set(tc.occArr);
+        it(`should say pawn.canMove2(${tc.newSquare}) === false`, () => {
+            chai.expect(pawn.canMove2(tc.newSquare, occSet)).to.be.not.ok;
         });
     });
 });

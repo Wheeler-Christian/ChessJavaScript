@@ -13,10 +13,8 @@ export class ChessPiece {
         this.team = team;
         this.location = location;
         this.image = image;
+        this.message = '';
     }
-
-    //used to tell the user whether their move was accepted
-    feedback = document.querySelector('#feedback');
 
     //getters
     getPieceID() { return this.pieceID; }
@@ -25,12 +23,13 @@ export class ChessPiece {
     getImage() { return this.image; }
 
     //setters -- dummy functions -- delete later
-    setTeam(newTeam) { this.team = newTeam; }
-    setLocation(newLocation) { this.location = newLocation; }
+    //setTeam(newTeam) { this.team = newTeam; }
+    //setLocation(newLocation) { this.location = newLocation; }
 
     //for giving the user feedback on whether their move was successful
-    setFeedback(text) {this.feedback.textContent = text; }
-    //appendFeedback(text) {this.feedback.textContent += text; }
+    setFeedback(text) {
+        document.querySelector('#feedback').textContent = text;
+    }
 
     // /**---------------------------------------------------------------------------------------------------------------------------------------
     //  * 
@@ -76,15 +75,9 @@ export class ChessPiece {
         document.querySelector(`#${newSquare}`).appendChild(node);
         //remove pieceID from OLD square
         document.querySelector(`#${oldSquare}`).textContent = '';
-
-        //declare that the OLD square is no longer occupied
-        //this.makeEmpty(oldSquare);
-        //declare that the NEW square is now occupied
-        //this.makeOccupied(newSquare);
-
         //update the location stored in this object
         this.location = newSquare;
-
+        //inform the user of success
         this.setFeedback(`Successfully moved chess piece ${this.pieceID} to ${this.location}`);
     }
 
@@ -101,23 +94,15 @@ export class ChessPiece {
             this.setFeedback(`Error: the square ${newSquare} does not exist`);
             return false; //you cannot move to an invalid square
         }
-
         //if the user tries to move 0 spaces
         if (newSquare === this.location) {
             this.setFeedback('Error: you cannot move 0 spaces');
             return false;//it is invalid to move a piece zero spaces -- that doesn't make any sense
         }
-
         //if new square is empty
-        // if (!this.isOccupied(newSquare)) {
-        //     return true;
-        // }
-
-        //if new square is empty
-        if(!occupiedSquares.has(newSquare)){
+        if (!occupiedSquares.has(newSquare)) {
             return true;
         }
-
         //if new square has an ally on it -- the teams are same
         if (this.pieceID[0] === document.querySelector(`#${newSquare}`).textContent[0]) {
             this.setFeedback('Error: you cannot capture your own pieces');
@@ -130,16 +115,30 @@ export class ChessPiece {
 
     /**
      * 
+     * @param {boolean} CM2 the result of calling the canMove2() function
+     * @returns 
+     */
+    canMove3(CM2) {
+        if (CM2) { //ask the result of canMove2
+            return true; //we can move there
+        }
+        //else we cannot move there
+        this.setFeedback(this.message); //tell the user the bad news
+        return false;
+    }
+
+    /**
+     * 
      * @param {string[]} path the path of squares that we want to travel on
      * @param {Set<string>} occupiedSquares the squares that are currently occupied
      * @returns true if all the squares in the path are empty
      * @returns false if any of the squares in the path are occupied
      */
-    validatePath(path, occupiedSquares){
+    validatePath(path, occupiedSquares) {
         let pathIsClear = true;//assume the path is clear until we discover otherwise
         path.forEach(square => { //check each square in the path
-            if(occupiedSquares.has(square)){ //is that square occupied?
-                this.setFeedback(`Error: the pathway is obstructed because ${square} is occupied`);
+            if (occupiedSquares.has(square)) { //is that square occupied?
+                this.message = `Error: the pathway is obstructed because ${square} is occupied`;
                 pathIsClear = false; //we found an obstruction
                 return; //if it is occupied, stop searching
             }

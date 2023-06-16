@@ -11,6 +11,7 @@ import { King } from './classes/king.js';
 //                  0    1    2    3    4    5    6    7    8    
 const num2alpha = ['Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 const NUM_COLS = 8;//the chess board has 8 columns
+const NUM_ROWS = 8;//the chess board has 8 columns
 const btnMove = document.querySelector('#btnMove');
 
 //Create the ChessPiece objects, and store them in a Map data structure vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -81,4 +82,16 @@ btnMove.addEventListener('click', e => {
 });
 //this section adds event listeners to help move pieces ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+//this section adds event listeners so we can click on the squares vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//make the squares and put them in an array
+let squares = [];
+for(let c = 1; c <= NUM_COLS; c++){
+    for(let r = 1; r <= NUM_ROWS; r++){
+        squares.push(`${num2alpha[c]}${r}`);
+    }
+}
 
+squares.forEach(square => {
+    //add event listeners for each square
+});
+//this section adds event listeners so we can click on the squares ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
