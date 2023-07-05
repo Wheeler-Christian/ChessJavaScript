@@ -7,7 +7,7 @@
  */
 
 /* Clicked color scheme
- * https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
+ * https://www.pastelcolorpalettes.com/dark-christmas-pastels
  */
 
 body{
@@ -66,12 +66,12 @@ td{
     text-align: center;
 }
 
-.light{
+.light-square{
     background-color: #eae0d5;
     color: black;
 }
 
-.dark{
+.dark-square{
     background-color: #5e503f;
     color: white;
 }
@@ -81,6 +81,23 @@ img{
     height: 20mm;
     margin: 0;
     /*margin: 10%;*/
+}
+
+.clicked.ally{
+    background-color: #93B5A2; /*green*/
+}
+
+.clicked.enemy{
+    background-color: #A37067; /*red*/
+}
+
+.clicked{
+    background-color: #59757D; /*blu*/
+}
+
+.bold{
+    font-weight: bold;
+    font-size: larger;
 }
 
 #bibliography{
