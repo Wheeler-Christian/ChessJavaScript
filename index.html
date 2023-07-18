@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -6,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess in JavaScript</title>
 
-    <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" />
+    <!-- <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="./style.css">
 
     <script type="module" src="./main.js"></script>
@@ -16,6 +18,7 @@
 
 <body>
     <h1>Chess in JavaScript</h1>
+    <div class="square dark-square hidden" id="Z9"></div>
     <div id="table-wrapper">
         <table>
             <tr id="row9">
@@ -305,20 +308,47 @@
         </div>
     </div>
     <!--end of table-wrapper-->
-    <div id="form-wrapper">
+    <div class="form-wrapper">
         <form>
-            <h2>Light's turn to move!</h2>
-            <label for="stringSource">Piece to move:</label>
-            <label id="stringSource" class="bold">LP1</label>
+            <h2><span id="whoseTurn">Light</span>'s turn to move!</h2>
+            <label for="lblSQ1">Piece to move:</label>
+            <label id="lblSQ1" class="bold">piece</label>
             <br><br>
-            <label for="stringTarget">Destination:</label>
-            <label id="stringTarget" class="bold">Try clicking on a square</label>
+            <label for="lblSQ2">Destination:</label>
+            <label id="lblSQ2" class="bold">destination</label>
             <br><br>
             <input type="submit" value="Submit" id="btnMove">
-            <p id="feedback"></p>
+            <p id="feedback">Try clicking on the chess board...</p>
         </form>
     </div>
-
+    <div id="divLightPromo" class="form-wrapper hidden">
+        <form>
+            <h2>Light Pawn Promotion:</h2>
+            <p>Choose:
+                <select name="selLightPromo" id="selLightPromo">
+                    <option value="Rook">Rook</option>
+                    <option value="Knight">Knight</option>
+                    <option value="Bishop">Bishop</option>
+                    <option value="Queen">Queen</option>
+                </select>
+            </p>
+            <input type="submit" value="Submit" id="btnLightPromo">
+        </form>
+    </div>
+    <div id="divDarkPromo" class="form-wrapper hidden">
+        <form>
+            <h2>Dark Pawn Promotion:</h2>
+            <p>Choose:
+                <select name="selDarkPromo" id="selDarkPromo">
+                    <option value="Rook">Rook</option>
+                    <option value="Knight">Knight</option>
+                    <option value="Bishop">Bishop</option>
+                    <option value="Queen">Queen</option>
+                </select>
+            </p>
+            <input type="submit" value="Submit" id="btnDarkPromo">
+        </form>
+    </div>
 </body>
 
 </html>

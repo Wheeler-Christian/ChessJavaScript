@@ -14,29 +14,33 @@ export class GameMaster {
     #NUM_COLS = 8;//the chess board has 8 columns
     #NUM_ROWS = 8;//the chess board has 8 columns
 
-    //To give the user a hint on how to move
-    #HINT = 'Try clicking on a square.';
-
-    //"Source And Target Squares" -- sats[1]=source, sats[2]=target
-    #sats = null;
-
-    //To send output to the web page about the source and target squares
-    #labelsSats = null;
+    #chosenSQ1 = 'Z9';
+    #chosenSQ2 = 'Z9';
 
     #squareIDs = new Set();
     #chessPieces = new Map();
-    #whoseTurn = 'light';
-    #jail = new Map();
+    #whoseTurn = 'Light';
     #occupiedSquares = new Set();
 
     constructor() {
-        this.#HINT = 'Try clicking on a square.';
+        //make references for all the square IDs and put them in a set
+        //A1 A2 A3... B1 B2 B3...
+        for (let c = 1; c <= this.#NUM_COLS; c++) {
+            for (let r = 1; r <= this.#NUM_ROWS; r++) {
+                this.#squareIDs.add(`${this.#num2alpha[c]}${r}`);
+            }
+        }
+    }
 
-        //"Source And Target Squares" -- sats[1]=source, sats[2]=target
-        this.#sats = ['ZERO', this.#HINT, this.#HINT];
-
-        //To send output to the web page about the source and target squares
-        this.#labelsSats = ['ZERO', document.querySelector('#stringSource'), document.querySelector('#stringTarget')];
+    /**
+     * output variables to help with debugging
+     */
+    debugOutput(squareID) {
+        return 'squareID: ' + squareID +
+            '\nchosenSQ1: ' + this.#chosenSQ1 +
+            '\nchosenSQ2: ' + this.#chosenSQ2 +
+            '\nwhoseTurn: ' + this.#whoseTurn +
+            '\n';
     }
 
     /**
@@ -44,8 +48,9 @@ export class GameMaster {
      */
     gameSetup() {
         this.#createPieces();
-        this.#aelButton();
         this.#aelSquares();
+        this.#aelPawnPromotions();
+        this.#aelButton();
     }
 
     /**
@@ -110,56 +115,135 @@ export class GameMaster {
         const btnMove = document.querySelector('#btnMove');
         btnMove.addEventListener('click', e => {
             e.preventDefault();
-            const pieceID = document.querySelector('#stringSource').textContent;//get the piece ID from the label
+            const pieceID = document.querySelector('#lblSQ1').textContent;//get the piece ID from the label
             const chessPiece = this.#chessPieces.get(pieceID);//get the chessPiece object to be moved
-            const newLocation = document.querySelector('#stringTarget').textContent;//get the new location from the input, trimmed and upper case
-            if (chessPiece.canMove(newLocation, this.#occupiedSquares)) {//if this chess piece is allowed to move there
+            const destination = document.querySelector('#lblSQ2').textContent;//get the new location from the input, trimmed and upper case
+            if (chessPiece.canMove(destination, this.#occupiedSquares)) {//if this chess piece is allowed to move there
                 this.#occupiedSquares.delete(chessPiece.getLocation());//de-occupy the old location
-                chessPiece.move(newLocation);//move it to the new location
-                this.#occupiedSquares.add(newLocation);//occupy the new location
+                chessPiece.move(destination);//move it to the new location
+                this.#occupiedSquares.add(destination);//occupy the new location
+
+                // check for pawn promotion
+                if (this.#checkPawnPromotion(chessPiece)) {
+                    console.log('PROMOTING PAWN');
+                    this.#promotePawn(chessPiece);
+                }
+
+                this.#startNextTurn(); //start the next turn
             }
         });
+    }
+
+    /**
+     * Makes the board ready for the next turn
+     */
+    #startNextTurn() {
+        console.log('entered startNextTurn() function');
+        this.#whoseTurn = this.#whoseTurn === 'Light' ? 'Dark' : 'Light'; // if it was light's turn, it is now dark's turn, and vice versa
+        document.querySelector('#whoseTurn').innerText = this.#whoseTurn;
+
+        // unclick both squares
+        this.#unclickSQ1(this.#chosenSQ1);
+        this.#unclickSQ2(this.#chosenSQ2);
     }
 
     /**Add Event Listener to the Squares
      * this function adds an event listener to each button, so the user can choose how to move
      */
     #aelSquares() {
-        //make references for all the square IDs and put them in an array
-        //A1 A2 A3... B1 B2 B3...
-        for (let c = 1; c <= this.#NUM_COLS; c++) {
-            for (let r = 1; r <= this.#NUM_ROWS; r++) {
-                squares.push(
-                    `${this.#num2alpha[c]}${r}`
-                );
-            }
-        }
-
-        //TODO: finish this function, as described in my notebook
         this.#squareIDs.forEach(squareID => {
-            
+            document.querySelector(`#${squareID}`).addEventListener('click', e => {
+                if (squareID === this.#chosenSQ1) {
+                    console.log('first if');
+                    this.#unclickSQ1(squareID);
+                    //return;
+                }
+                else if (squareID === this.#chosenSQ2) {
+                    console.log('second if');
+                    this.#unclickSQ2(squareID);
+                    //return;
+                }
+                else if (this.#occupiedSquares.has(squareID)) { // Is this square occupied?
+                    console.log('third if');
+                    // Does this square contain an ally?
+                    if (document.querySelector(`#${squareID}`).innerText[0].toLowerCase() === this.#whoseTurn[0].toLowerCase()) {
+                        console.log('fourth if');
+                        this.#clickSQ1(squareID);
+                        //return;
+                    }
+                    else { // else this square contains an enemy
+                        console.log('fifth if');
+                        this.#clickSQ2(squareID);
+                        //return;
+                    }
+                }
+                else {
+                    console.log('last else');
+                    this.#clickSQ2(squareID);
+                    //return;
+                }
+            });
         });
     }
 
-    /**
-     * 
-     * @param {number} index must be 1 or 2
-     * @param {string} squareID the id of the square to be unclicked
-     */
-    #unclick(index, squareID){
-        this.#labelsSats[index].innerText = this.#HINT;
-        document.querySelector(squareID).classList.Remove('clicked');
+    #unclickSQ1(squareID) {
+        document.querySelector('#lblSQ1').innerText = 'source';
+        this.#chosenSQ1 = 'Z9';
+        document.querySelector(`#${squareID}`).classList.remove('ally');
     }
 
-     /**
-     * 
-     * @param {number} index must be 1 or 2
-     * @param {string} squareID the id of the square to be CLICKED
+    #unclickSQ2(squareID) {
+        document.querySelector('#lblSQ2').innerText = 'target';
+        this.#chosenSQ2 = 'Z9';
+        document.querySelector(`#${squareID}`).classList.remove('enemy');
+    }
+
+    #clickSQ1(squareID) {
+        document.querySelector(`#${this.#chosenSQ1}`).classList.remove('ally');
+        document.querySelector(`#${squareID}`).classList.add('ally');
+        this.#chosenSQ1 = squareID;
+        document.querySelector('#lblSQ1').innerText = document.querySelector(`#${squareID}`).innerText;
+    }
+
+    #clickSQ2(squareID) {
+        document.querySelector(`#${this.#chosenSQ2}`).classList.remove('enemy');
+        document.querySelector(`#${squareID}`).classList.add('enemy');
+        this.#chosenSQ2 = squareID;
+        document.querySelector('#lblSQ2').innerText = squareID;
+    }
+
+    #checkPawnPromotion(chessPiece) {
+        // if this is a pawn
+        if (chessPiece.getType() === 'Pawn') {
+            // is the team Light?
+            if (chessPiece.getTeam() === 'Light') {
+                // eligible for promotion if rank is 8
+                return chessPiece.getRank() === 8;
+            }
+            else { // the team is Dark
+                return chessPiece.getRank() === 1;
+            }
+        }
+        else return false; // not a pawn
+    }
+
+    #promotePawn(pawn) {
+        if(pawn.getTeam() === 'Light'){
+            //remove the hidden attribute, so they can submit the form
+            document.querySelector('#divLightPromo').classList.remove('hidden');
+        }
+        else { // team is dark
+            //remove the hidden attribute, so they can submit the form
+            document.querySelector('#divDarkPromo').classList.remove('hidden');
+        }
+    }
+
+    /**
+     * adds event listeners for promoting pawns buttons
      */
-    #click(index, squareID){
-        document.querySelector(this.#sats[index]).classList.Remove('clicked');
-        document.querySelector(squareID).classList.add('clicked');
-        this.#sats[index] = squareID;
-        this.#labelsSats[index].innerText = squareID;
+    #aelPawnPromotions(){
+            //TODO: PROMOTE LIGHT PAWN
+            //TODO: PROMOTE DARK PAWN
+
     }
 }

@@ -15,12 +15,12 @@ export class Pawn extends ChessPiece {
 
     /**
      * 
-     * @returns 1 if the team is light; -1 if the team is dark
-     * this is useful because for light pieces, forward means up/north
+     * @returns 1 if the team is Light; -1 if the team is dark
+     * this is useful because for Light pieces, forward means up/north
      * while for dark pieces, forward means down/south
      */
     getSign() {
-        return this.getTeam() === 'light' ? 1 : -1;
+        return this.getTeam() === 'Light' ? 1 : -1;
     }
 
     /**
@@ -29,7 +29,7 @@ export class Pawn extends ChessPiece {
      *          false otherwise
      */
     isFirstMove() {
-        if (this.getTeam() === 'light') {
+        if (this.getTeam() === 'Light') {
             return this.location[1] === '2';
         }
         //else this.getTeam() === 'dark'

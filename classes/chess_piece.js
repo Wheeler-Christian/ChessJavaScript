@@ -3,7 +3,7 @@ import * as SQUARE from './square_methods.js';
 export class ChessPiece {
     /**
      * ChessPiece constructor
-     * @param {string} pieceID 
+     * @param {string} pieceID, example 'LP1'
      * @param {string} team 
      * @param {string} location, example 'A2'
      * @param {string} image 
@@ -18,45 +18,49 @@ export class ChessPiece {
 
     //getters
     getPieceID() { return this.pieceID; }
-    getTeam() { return this.team; }
     getLocation() { return this.location; }
     getImage() { return this.image; }
 
-    //setters -- dummy functions -- delete later
-    //setTeam(newTeam) { this.team = newTeam; }
-    //setLocation(newLocation) { this.location = newLocation; }
+    // get team
+    getTeam() { 
+        if(this.pieceID[0] === 'L'){
+            return 'Light';
+        } 
+        if(this.pieceID[0] === 'D'){
+            return 'Dark';
+        }
+        throw new Error('Team is neither Light nor Dark!');
+    }
+
+    // get type
+    getType() {
+        switch (this.pieceID[1]) {
+            case "P":
+                return "Pawn";
+            case "R":
+                return "Rook";
+            case "N":
+                return "Knight";
+            case "B":
+                return "Bishop";
+            case "Q":
+                return "Queen";
+            case "K":
+                return "King";
+            default:
+                throw new Error('Type of Chess Piece is invalid!');
+        }
+    }
+
+    // get rank AKA row
+    getRank() {
+        return Number(this.location[1]);
+    }
 
     //for giving the user feedback on whether their move was successful
     setFeedback(text) {
         document.querySelector('#feedback').textContent = text;
     }
-
-    // /**---------------------------------------------------------------------------------------------------------------------------------------
-    //  * 
-    //  * @param {string} square 
-    //  * @returns true if the square is occupied, false otherwise
-    //  */
-    //  isOccupied(square) {
-    //     return document.querySelector(`#${square}`).classList.contains('occupied');
-    // }
-
-    // /**---------------------------------------------------------------------------------------------------------------------------------------
-    //  * 
-    //  * @param {string} square 
-    //  * @returns true if the square is occupied, false otherwise
-    //  */
-    //  makeOccupied(square) {
-    //     document.querySelector(`#${square}`).classList.add('occupied');
-    // }
-
-    // /**---------------------------------------------------------------------------------------------------------------------------------------
-    //  * 
-    //  * @param {string} square 
-    //  * @returns true if the square is occupied, false otherwise
-    //  */
-    // makeEmpty(square) {
-    //     document.querySelector(`#${square}`).classList.remove('occupied');
-    // }
 
     /**---------------------------------------------------------------------------------------------------------------------------------------
      * Moves this ChessPiece object from the current location to the new location, by updating the location field

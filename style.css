@@ -10,35 +10,37 @@
  * https://www.pastelcolorpalettes.com/dark-christmas-pastels
  */
 
-body{
+body {
     background-color: #2C2825;
     color: #ECE5E3;
     margin: 25mm;
 }
 
-#table-wrapper{
+#table-wrapper {
     float: left;
     margin: 0mm;
 }
 
-#form-wrapper{
+.form-wrapper {
     float: left;
     border-style: solid;
     border-color: #393534;
     border-width: 10mm;
     margin-left: 10mm;
+    margin-bottom: 10mm;
     padding: 5mm;
+    max-width: 250px;
 }
 
-table{
+table {
     border-spacing: 0px;
 }
 
-td{
+td {
     padding: 0px;
 }
 
-.left-right-header{
+.left-right-header {
     width: 10mm;
     height: 25mm;
     background-color: #393534;
@@ -46,7 +48,7 @@ td{
     text-align: center;
 }
 
-.bottom-top-header{
+.bottom-top-header {
     width: 25mm;
     height: 10mm;
     background-color: #393534;
@@ -54,56 +56,63 @@ td{
     text-align: center;
 }
 
-.corner-header{
+.corner-header {
     width: 10mm;
     height: 10mm;
     background-color: #393534;
 }
 
-.square{
+.square {
     width: 25mm;
     height: 25mm;
     text-align: center;
 }
 
-.light-square{
+.light-square {
     background-color: #eae0d5;
     color: black;
 }
 
-.dark-square{
+.dark-square {
     background-color: #5e503f;
     color: white;
 }
 
-img{
+img {
     width: 20mm;
     height: 20mm;
     margin: 0;
     /*margin: 10%;*/
 }
 
-.clicked.ally{
-    background-color: #93B5A2; /*green*/
+.ally {
+    background-color: #93B5A2;
+    /*green*/
 }
 
-.clicked.enemy{
-    background-color: #A37067; /*red*/
+.enemy {
+    background-color: #A37067;
+    /*red*/
 }
 
-.clicked{
-    background-color: #59757D; /*blu*/
+.clicked {
+    background-color: #59757D;
+    /*blue*/
 }
 
-.bold{
+.hidden {
+    display: none;
+}
+
+.bold {
     font-weight: bold;
     font-size: larger;
 }
 
-#bibliography{
+#bibliography {
     margin-top: 10px;
 }
 
-#bibliography a{
+#bibliography a {
     color: #bbb;
 }
