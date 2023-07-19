@@ -308,7 +308,7 @@
         </div>
     </div>
     <!--end of table-wrapper-->
-    <div class="form-wrapper">
+    <div id="divMove" class="form-wrapper">
         <form>
             <h2><span id="whoseTurn">Light</span>'s turn to move!</h2>
             <label for="lblSQ1">Piece to move:</label>
@@ -317,38 +317,27 @@
             <label for="lblSQ2">Destination:</label>
             <label id="lblSQ2" class="bold">destination</label>
             <br><br>
-            <input type="submit" value="Submit" id="btnMove">
+            <input type="submit" value="Move!" id="btnMove">
             <p id="feedback">Try clicking on the chess board...</p>
         </form>
     </div>
-    <div id="divLightPromo" class="form-wrapper hidden">
+    <div id="divPromo" class="form-wrapper hidden">
         <form>
-            <h2>Light Pawn Promotion:</h2>
-            <p>Choose:
-                <select name="selLightPromo" id="selLightPromo">
-                    <option value="Rook">Rook</option>
-                    <option value="Knight">Knight</option>
-                    <option value="Bishop">Bishop</option>
-                    <option value="Queen">Queen</option>
+            <h2>Pawn Promotion:</h2>
+            <p>Pawn: <span id="spnPromoPawn"></span></p>
+            <p>Location: <span id="spnPromoLoc"></span></p>
+            <p>Promote to:
+                <select name="selPromo" id="selPromo">
+                    <option value="R">Rook</option>
+                    <option value="N">Knight</option>
+                    <option value="B">Bishop</option>
+                    <option value="Q">Queen</option>
                 </select>
             </p>
-            <input type="submit" value="Submit" id="btnLightPromo">
+            <input type="submit" value="Promote Pawn!" id="btnPromo">
         </form>
     </div>
-    <div id="divDarkPromo" class="form-wrapper hidden">
-        <form>
-            <h2>Dark Pawn Promotion:</h2>
-            <p>Choose:
-                <select name="selDarkPromo" id="selDarkPromo">
-                    <option value="Rook">Rook</option>
-                    <option value="Knight">Knight</option>
-                    <option value="Bishop">Bishop</option>
-                    <option value="Queen">Queen</option>
-                </select>
-            </p>
-            <input type="submit" value="Submit" id="btnDarkPromo">
-        </form>
-    </div>
+
 </body>
 
 </html>

@@ -4,22 +4,17 @@ export class ChessPiece {
     /**
      * ChessPiece constructor
      * @param {string} pieceID, example 'LP1'
-     * @param {string} team 
      * @param {string} location, example 'A2'
-     * @param {string} image 
      */
-    constructor(pieceID, team, location, image) {
+    constructor(pieceID, location) {
         this.pieceID = pieceID;
-        this.team = team;
         this.location = location;
-        this.image = image;
         this.message = '';
     }
 
     //getters
     getPieceID() { return this.pieceID; }
     getLocation() { return this.location; }
-    getImage() { return this.image; }
 
     // get team
     getTeam() { 
@@ -50,6 +45,12 @@ export class ChessPiece {
             default:
                 throw new Error('Type of Chess Piece is invalid!');
         }
+    }
+
+    //get image --- returns the file location of the picture for this piece
+    //example: 'images/dark-rook.png'
+    getImage() {
+        return `images/${this.getTeam()}${this.getType()}.png`; 
     }
 
     // get rank AKA row

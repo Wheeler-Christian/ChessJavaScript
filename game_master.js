@@ -49,7 +49,7 @@ export class GameMaster {
     gameSetup() {
         this.#createPieces();
         this.#aelSquares();
-        this.#aelPawnPromotions();
+        this.#aelPawnPromotion();
         this.#aelButton();
     }
 
@@ -58,14 +58,14 @@ export class GameMaster {
      */
     #createPieces() {
         //Create the dark chess pieces
-        this.#chessPieces.set('DR2', new Rook('DR2', 'dark', 'A8', 'images/dark-rook.png'));
-        this.#chessPieces.set('DN2', new Knight('DN2', 'dark', 'B8', 'images/dark-knight.png'));
-        this.#chessPieces.set('DB2', new Bishop('DB2', 'dark', 'C8', 'images/dark-bishop.png'));
-        this.#chessPieces.set('DQ', new Queen('DQ', 'dark', 'D8', 'images/dark-queen.png'));
-        this.#chessPieces.set('DK', new King('DK', 'dark', 'E8', 'images/dark-king.png'));
-        this.#chessPieces.set('DB1', new Bishop('DB1', 'dark', 'F8', 'images/dark-bishop.png'));
-        this.#chessPieces.set('DN1', new Knight('DN1', 'dark', 'G8', 'images/dark-knight.png'));
-        this.#chessPieces.set('DR1', new Rook('DR1', 'dark', 'H8', 'images/dark-rook.png'));
+        this.#chessPieces.set('DR2', new Rook('DR2', 'A8'));
+        this.#chessPieces.set('DN2', new Knight('DN2', 'B8'));
+        this.#chessPieces.set('DB2', new Bishop('DB2', 'C8'));
+        this.#chessPieces.set('DQ', new Queen('DQ', 'D8'));
+        this.#chessPieces.set('DK', new King('DK', 'E8'));
+        this.#chessPieces.set('DB1', new Bishop('DB1', 'F8'));
+        this.#chessPieces.set('DN1', new Knight('DN1', 'G8'));
+        this.#chessPieces.set('DR1', new Rook('DR1', 'H8'));
 
         //Create the dark pawns
         //loops through 8 times -- one for each pawn
@@ -73,7 +73,7 @@ export class GameMaster {
             //creates dark pawn 8, ... dark pawn 1, and places it in the data structure
             const ID = `DP${this.#NUM_COLS - col}`;
             const LOCATION = `${this.#num2alpha[col + 1]}7`;
-            this.#chessPieces.set(ID, new Pawn(ID, 'dark', LOCATION, 'images/dark-pawn.png'));
+            this.#chessPieces.set(ID, new Pawn(ID, LOCATION));
         }
 
         //Create the light pawns
@@ -82,30 +82,38 @@ export class GameMaster {
             //creates light pawn 8, ... light pawn 1, and places it in the data structure
             const ID = `LP${col + 1}`;
             const LOCATION = `${this.#num2alpha[col + 1]}2`;
-            this.#chessPieces.set(ID, new Pawn(ID, 'light', LOCATION, 'images/light-pawn.png'));
+            this.#chessPieces.set(ID, new Pawn(ID, LOCATION));
         }
 
         //Create the light chess pieces
-        this.#chessPieces.set('LR1', new Rook('LR1', 'light', 'A1', 'images/light-rook.png'));
-        this.#chessPieces.set('LN1', new Knight('LN1', 'light', 'B1', 'images/light-knight.png'));
-        this.#chessPieces.set('LB1', new Bishop('LB1', 'light', 'C1', 'images/light-bishop.png'));
-        this.#chessPieces.set('LQ', new Queen('LQ', 'light', 'D1', 'images/light-queen.png'));
-        this.#chessPieces.set('LK', new King('LK', 'light', 'E1', 'images/light-king.png'));
-        this.#chessPieces.set('LB2', new Bishop('LB2', 'light', 'F1', 'images/light-bishop.png'));
-        this.#chessPieces.set('LN2', new Knight('LN2', 'light', 'G1', 'images/light-knight.png'));
-        this.#chessPieces.set('LR2', new Rook('LR2', 'light', 'H1', 'images/light-rook.png'));
+        this.#chessPieces.set('LR1', new Rook('LR1', 'A1'));
+        this.#chessPieces.set('LN1', new Knight('LN1', 'B1'));
+        this.#chessPieces.set('LB1', new Bishop('LB1', 'C1'));
+        this.#chessPieces.set('LQ', new Queen('LQ', 'D1'));
+        this.#chessPieces.set('LK', new King('LK', 'E1'));
+        this.#chessPieces.set('LB2', new Bishop('LB2', 'F1'));
+        this.#chessPieces.set('LN2', new Knight('LN2', 'G1'));
+        this.#chessPieces.set('LR2', new Rook('LR2', 'H1'));
 
         //Once I create all the ChessPiece objects, place them on the board
         this.#chessPieces.forEach(chessPiece => {
-            const element = document.createElement('img');
-            element.id = chessPiece.getPieceID();
-            element.src = chessPiece.getImage();
-            element.alt = chessPiece.getPieceID();
-            let currentLocation = `#${chessPiece.getLocation()}`;
-            document.querySelector(currentLocation).textContent = chessPiece.getPieceID();
-            document.querySelector(currentLocation).appendChild(element);
-            this.#occupiedSquares.add(chessPiece.getLocation());//occupy the starting location
+            this.#emplaceChessPiece(chessPiece);
         });
+    }
+
+    /**
+     * there are two different places this needs to happen, so I put the code in a function
+     * @param {ChessPiece} chessPiece 
+     */
+    #emplaceChessPiece(chessPiece){
+        const element = document.createElement('img');
+        element.id = chessPiece.getPieceID();
+        element.src = chessPiece.getImage();
+        element.alt = chessPiece.getPieceID();
+        let currentLocation = `#${chessPiece.getLocation()}`;
+        document.querySelector(currentLocation).textContent = chessPiece.getPieceID();
+        document.querySelector(currentLocation).appendChild(element);
+        this.#occupiedSquares.add(chessPiece.getLocation());//occupy the starting location
     }
 
     /**Add Event Listener to the button
@@ -126,10 +134,11 @@ export class GameMaster {
                 // check for pawn promotion
                 if (this.#checkPawnPromotion(chessPiece)) {
                     console.log('PROMOTING PAWN');
-                    this.#promotePawn(chessPiece);
+                    this.#promotePawn(chessPiece.getPieceID());
                 }
-
-                this.#startNextTurn(); //start the next turn
+                else { //no pawn promotion available
+                    this.#startNextTurn(); //start the next turn
+                }
             }
         });
     }
@@ -138,7 +147,7 @@ export class GameMaster {
      * Makes the board ready for the next turn
      */
     #startNextTurn() {
-        console.log('entered startNextTurn() function');
+        //console.log('entered startNextTurn() function');
         this.#whoseTurn = this.#whoseTurn === 'Light' ? 'Dark' : 'Light'; // if it was light's turn, it is now dark's turn, and vice versa
         document.querySelector('#whoseTurn').innerText = this.#whoseTurn;
 
@@ -154,31 +163,31 @@ export class GameMaster {
         this.#squareIDs.forEach(squareID => {
             document.querySelector(`#${squareID}`).addEventListener('click', e => {
                 if (squareID === this.#chosenSQ1) {
-                    console.log('first if');
+                    //console.log('first if');
                     this.#unclickSQ1(squareID);
                     //return;
                 }
                 else if (squareID === this.#chosenSQ2) {
-                    console.log('second if');
+                    //console.log('second if');
                     this.#unclickSQ2(squareID);
                     //return;
                 }
                 else if (this.#occupiedSquares.has(squareID)) { // Is this square occupied?
-                    console.log('third if');
+                    //console.log('third if');
                     // Does this square contain an ally?
                     if (document.querySelector(`#${squareID}`).innerText[0].toLowerCase() === this.#whoseTurn[0].toLowerCase()) {
-                        console.log('fourth if');
+                        //console.log('fourth if');
                         this.#clickSQ1(squareID);
                         //return;
                     }
                     else { // else this square contains an enemy
-                        console.log('fifth if');
+                        //console.log('fifth if');
                         this.#clickSQ2(squareID);
                         //return;
                     }
                 }
                 else {
-                    console.log('last else');
+                    //console.log('last else');
                     this.#clickSQ2(squareID);
                     //return;
                 }
@@ -227,23 +236,67 @@ export class GameMaster {
         else return false; // not a pawn
     }
 
-    #promotePawn(pawn) {
-        if(pawn.getTeam() === 'Light'){
-            //remove the hidden attribute, so they can submit the form
-            document.querySelector('#divLightPromo').classList.remove('hidden');
-        }
-        else { // team is dark
-            //remove the hidden attribute, so they can submit the form
-            document.querySelector('#divDarkPromo').classList.remove('hidden');
-        }
+    #promotePawn(pawnID) {
+        //disable the move button so they can't move until the promotion is finished
+        document.querySelector('#btnMove').disabled = true;
+
+        //show the promotion form, then wait for their answer
+        document.querySelector('#spnPromoPawn').innerText = pawnID;
+        document.querySelector('#spnPromoLoc').innerText = this.#chessPieces.get(pawnID).getLocation();
+        document.querySelector('#divPromo').classList.remove('hidden');
     }
 
     /**
      * adds event listeners for promoting pawns buttons
      */
-    #aelPawnPromotions(){
-            //TODO: PROMOTE LIGHT PAWN
-            //TODO: PROMOTE DARK PAWN
+    #aelPawnPromotion() {
+        // Event listener for promoting a pawn:
+        document.querySelector('#btnPromo').addEventListener('click', e => {
+            e.preventDefault();
 
+            //get the team
+            const TEAM = document.querySelector('#spnPromoPawn').innerText[0];
+            console.log(TEAM);
+
+            //get the type
+            const TYPE = document.querySelector('#selPromo').value;
+            console.log(TYPE);
+
+            // get the location
+            const LOCATION = document.querySelector('#spnPromoLoc').innerText;
+
+            let numId = 2;//start out with some number ID
+            while(this.#chessPieces.has(`${TEAM}${TYPE}${numId}`)) { //if this particular ID is taken
+                numId++; //try a different number part of the ID
+            }
+            const pieceID = `${TEAM}${TYPE}${numId}`;
+
+            switch (TYPE) {
+                case 'R':
+                    this.#chessPieces.set(pieceID, new Rook(pieceID, LOCATION));
+                    break;
+                case 'N':
+                    this.#chessPieces.set(pieceID, new Knight(pieceID, LOCATION));
+                    break;
+                case 'B':
+                    this.#chessPieces.set(pieceID, new Bishop(pieceID, LOCATION));
+                    break;
+                case 'Q':
+                    this.#chessPieces.set(pieceID, new Queen(pieceID, LOCATION));
+                    break;
+                default:
+                    throw new Error('Invalid promotion choice!');
+            }
+            //emplace the chess piece on the board
+            this.#emplaceChessPiece(this.#chessPieces.get(pieceID));
+
+            //hide the promo form, so they can't do anymore promos
+            document.querySelector('#divPromo').classList.add('hidden');
+
+            //enable the move button, so the game can proceed
+            document.querySelector('#btnMove').disabled = false;
+            
+            this.#startNextTurn(); //start the next turn
+        });
     }
 }

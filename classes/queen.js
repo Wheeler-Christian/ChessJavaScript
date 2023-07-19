@@ -5,12 +5,11 @@ export class Queen extends ChessPiece {
     /**
      * Pawn constructor
      * @param {string} pieceID 
-     * @param {string} team 
      * @param {string} location 
      * @param {string} image 
      */
-    constructor(pieceID, team, location, image) {
-        super(pieceID, team, location, image);
+    constructor(pieceID, location, image) {
+        super(pieceID, location, image);
     }
 
     /**
@@ -22,7 +21,7 @@ export class Queen extends ChessPiece {
      */
      canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target);//ask the queen's specific rules for movement
+            const CM2 = this.canMove2(target, occSet);//ask the queen's specific rules for movement
             return this.canMove3(CM2);//publish the results
         }
         //else super says no, you cannot move there

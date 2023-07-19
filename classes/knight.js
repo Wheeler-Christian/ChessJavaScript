@@ -5,12 +5,11 @@ export class Knight extends ChessPiece {
     /**
      * Pawn constructor
      * @param {string} pieceID 
-     * @param {string} team 
      * @param {string} location 
      * @param {string} image 
      */
-    constructor(pieceID, team, location, image) {
-        super(pieceID, team, location, image);
+    constructor(pieceID, location, image) {
+        super(pieceID, location, image);
     }
 
     /**
