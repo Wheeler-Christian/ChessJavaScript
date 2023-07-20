@@ -76,8 +76,7 @@ export class Pawn extends ChessPiece {
      */
     canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target, occSet);//ask the pawn's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target, occSet);//ask the pawn's specific rules for movement
         }
         //else super says no, you cannot move there
         return false;
@@ -95,7 +94,7 @@ export class Pawn extends ChessPiece {
                 return true;//attack successful
             }
             //else not an attack move
-            this.message = 'Error: for a pawn to move to an occupied square, it must be a forward diagonal move of distance 1.'
+            this.setFeedback('Error: for a pawn to move to an occupied square, it must be a forward diagonal move of distance 1.');
             return false;
         }
         //else target square is empty
@@ -110,11 +109,11 @@ export class Pawn extends ChessPiece {
                 return this.validatePath(path, occSet);//validate the path
             }
             //else not first move
-            this.message = 'Error: a pawn may move 2 spaces forward, but only on its first move.';
+            this.setFeedback('Error: a pawn may move 2 spaces forward, but only on its first move.');
             return false;
         }
         //else it is not allowed
-        this.message = 'Error: for a pawn to move to an empty square, it must be a forward vertical move of distance 1 or 2.'
+        this.setFeedback('Error: for a pawn to move to an empty square, it must be a forward vertical move of distance 1 or 2.');
         return false;
     }
 }

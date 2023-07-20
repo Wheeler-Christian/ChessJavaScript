@@ -21,8 +21,7 @@ export class Bishop extends ChessPiece {
      */
      canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target);//ask the bishop's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target, occSet);//ask the bishop's specific rules for movement
         }
         //else super says no, you cannot move there
         return false;
@@ -36,7 +35,7 @@ export class Bishop extends ChessPiece {
     canMove2(target, occSet) {
         const ordinalDir = SQUARE.isPathOrdinal(this.location, target);
         if (ordinalDir <= 0) { //if the direction is NOT ordinal
-            this.message = 'The bishop must move in an ordinal direction: Northeast, Southeast, Southwest, or Northwest';
+            this.setFeedback('The bishop must move in an ordinal direction: Northeast, Southeast, Southwest, or Northwest');
             return false;
         }
         //else path is ordinal

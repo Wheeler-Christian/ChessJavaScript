@@ -41,17 +41,17 @@ export class Knight extends ChessPiece {
             if(dyAbs === 2){
                 return true;
             }
-            this.message = 'For knight, if |DeltaX| === 1, then |DeltaY| must equal 2.';
+            this.setFeedback('For knight, if |DeltaX| === 1, then |DeltaY| must equal 2.');
             return false;
         }
         if(dxAbs === 2){
             if(dyAbs === 1){
                 return true;
             }
-            this.message = 'For knight, if |DeltaX| === 2, then |DeltaY| must equal 1.';
+            this.setFeedback('For knight, if |DeltaX| === 2, then |DeltaY| must equal 1.');
             return false;
         }
-        this.message = 'A knight must move in an "L"-shaped pattern';
+        this.setFeedback('A knight must move in an "L"-shaped pattern.');
         return false;
     }
 }

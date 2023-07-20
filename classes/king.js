@@ -21,8 +21,7 @@ export class King extends ChessPiece {
      */
     canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target);//ask the knight's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target);//ask the knight's specific rules for movement
         }
         //else super says no, you cannot move there
         return false;
@@ -46,7 +45,7 @@ export class King extends ChessPiece {
                 return true; //diagonal move, distance 1
             }
             //else dyAbs > 1
-            this.message = 'You cannot move the king that far.';
+            this.setFeedback('You cannot move the king that far.');
             return false; //not allowed
         }
         //else dxAbs !== 1
@@ -55,11 +54,11 @@ export class King extends ChessPiece {
                 return true; //vertical move, distance 1
             }
             //else dyAbs !== 1, which means dyAbs > 1
-            this.message = 'You cannot move the king that far.';
+            this.setFeedback('You cannot move the king that far.');
             return false; //not allowed
         }
         //else dxAbs > 1
-        this.message = 'You cannot move the king that far.';
+        this.setFeedback('You cannot move the king that far.');
         return false; //not allowed
     }
 }

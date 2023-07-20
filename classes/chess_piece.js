@@ -9,7 +9,6 @@ export class ChessPiece {
     constructor(pieceID, location) {
         this.pieceID = pieceID;
         this.location = location;
-        this.message = '';
     }
 
     //getters
@@ -60,6 +59,7 @@ export class ChessPiece {
 
     //for giving the user feedback on whether their move was successful
     setFeedback(text) {
+        console.log(text);
         document.querySelector('#feedback').textContent = text;
     }
 
@@ -116,20 +116,6 @@ export class ChessPiece {
         }
         // else the destination square has an enemy on it
         return true;
-    }
-
-    /**
-     * 
-     * @param {boolean} CM2 the result of calling the canMove2() function
-     * @returns 
-     */
-    canMove3(CM2) {
-        if (CM2) { //ask the result of canMove2
-            return true; //we can move there
-        }
-        //else we cannot move there
-        this.setFeedback(this.message); //tell the user the bad news
-        return false;
     }
 
     /**

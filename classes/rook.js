@@ -21,8 +21,7 @@ export class Rook extends ChessPiece {
      */
      canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target, occSet);//ask the rook's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target, occSet);//ask the rook's specific rules for movement
         }
         //else super says no, you cannot move there
         return false;
@@ -38,7 +37,7 @@ export class Rook extends ChessPiece {
     canMove2(target, occSet) {
         const cardinalDir = SQUARE.isPathCardinal(this.location, target);
         if (cardinalDir <= 0) { //if the direction is NOT cardinal
-            this.message = 'The rook must move in a cardinal direction: North, East, South, or West';
+            this.setFeedback('The rook must move in a cardinal direction: North, East, South, or West');
             return false;
         }
         //else path is cardinal

@@ -21,8 +21,8 @@ export class Queen extends ChessPiece {
      */
      canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target, occSet);//ask the queen's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target, occSet);//ask the queen's specific rules for movement
+            //return this.canMove3(CM2);//publish the results
         }
         //else super says no, you cannot move there
         return false;
@@ -46,7 +46,7 @@ export class Queen extends ChessPiece {
             return this.validatePath(path, occupiedSquares);//validate the path
         }
         //else it is not allowed
-        this.message = `You cannot move the queen to ${target}`;
+        this.setFeedback(`You cannot move the queen to ${target}`);
         return false;
     }
 }

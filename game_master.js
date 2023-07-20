@@ -22,6 +22,7 @@ export class GameMaster {
     #whoseTurn = 'Light';
     #occupiedSquares = new Set();
 
+    //constructor
     constructor() {
         //make references for all the square IDs and put them in a set
         //A1 A2 A3... B1 B2 B3...
@@ -256,19 +257,16 @@ export class GameMaster {
 
             //get the team
             const TEAM = document.querySelector('#spnPromoPawn').innerText[0];
-            console.log(TEAM);
-
             //get the type
             const TYPE = document.querySelector('#selPromo').value;
-            console.log(TYPE);
-
             // get the location
             const LOCATION = document.querySelector('#spnPromoLoc').innerText;
-
+            //find a number ID
             let numId = 2;//start out with some number ID
             while(this.#chessPieces.has(`${TEAM}${TYPE}${numId}`)) { //if this particular ID is taken
                 numId++; //try a different number part of the ID
             }
+            //create the piece ID from these three separate parts
             const pieceID = `${TEAM}${TYPE}${numId}`;
 
             switch (TYPE) {
