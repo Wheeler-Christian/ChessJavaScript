@@ -21,8 +21,7 @@ export class Knight extends ChessPiece {
      */
      canMove(target, occSet) {
         if (super.canMove(target, occSet)) { //ask the parent class
-            const CM2 = this.canMove2(target);//ask the knight's specific rules for movement
-            return this.canMove3(CM2);//publish the results
+            return this.canMove2(target);//ask the knight's specific rules for movement
         }
         //else super says no, you cannot move there
         return false;
