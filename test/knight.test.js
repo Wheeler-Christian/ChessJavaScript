@@ -15,7 +15,7 @@ describe('knight.canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let knight = new Knight('ID', 'TEAM', tc.oldSquare, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
+        let knight = new Knight('ID', tc.oldSquare, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
         it(`should say knight.canMove2(${tc.newSquare}) === true`, () => {
             chai.expect(knight.canMove2(tc.newSquare)).to.be.ok;
         });
@@ -30,7 +30,7 @@ describe('knight.canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let knight = new Knight('ID', 'TEAM', tc.oldSquare, 'IMAGE'); //only the location is needed to test this function, so the other fields are dummies
+        let knight = new Knight('ID', tc.oldSquare, 'IMAGE'); //only the location is needed to test this function, so the other fields are dummies
         it(`should say knight.canMove2(${tc.newSquare}) === false`, () => {
             chai.expect(knight.canMove2(tc.newSquare)).to.be.not.ok;
         });

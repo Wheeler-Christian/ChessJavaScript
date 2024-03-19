@@ -9,18 +9,20 @@ export class ChessPiece {
     constructor(pieceID, location) {
         this.pieceID = pieceID;
         this.location = location;
+        this.feedback = "";
     }
 
     //getters
     getPieceID() { return this.pieceID; }
     getLocation() { return this.location; }
+    getFeedback() { return this.feedback; }
 
     // get team
-    getTeam() { 
-        if(this.pieceID[0] === 'L'){
+    getTeam() {
+        if (this.pieceID[0] === 'L') {
             return 'Light';
-        } 
-        if(this.pieceID[0] === 'D'){
+        }
+        if (this.pieceID[0] === 'D') {
             return 'Dark';
         }
         throw new Error('Team is neither Light nor Dark!');
@@ -49,7 +51,7 @@ export class ChessPiece {
     //get image --- returns the file location of the picture for this piece
     //example: 'images/dark-rook.png'
     getImage() {
-        return `images/${this.getTeam()}${this.getType()}.png`; 
+        return `images/${this.getTeam()}${this.getType()}.png`;
     }
 
     // get rank AKA row
@@ -60,7 +62,8 @@ export class ChessPiece {
     //for giving the user feedback on whether their move was successful
     setFeedback(text) {
         console.log(text);
-        document.querySelector('#feedback').textContent = text;
+        // document.querySelector('#feedback').textContent = text;
+        this.feedback = text;
     }
 
     /**---------------------------------------------------------------------------------------------------------------------------------------
@@ -129,7 +132,7 @@ export class ChessPiece {
         let pathIsClear = true;//assume the path is clear until we discover otherwise
         path.forEach(square => { //check each square in the path
             if (occupiedSquares.has(square)) { //is that square occupied?
-                this.message = `Error: the pathway is obstructed because ${square} is occupied`;
+                this.feedback = `Error: the pathway is obstructed because ${square} is occupied`;
                 pathIsClear = false; //we found an obstruction
                 return; //if it is occupied, stop searching
             }

@@ -1,7 +1,7 @@
 import { Rook } from '../classes/rook.js';
 
 // =============== Test Suite canMove2 =======================================================================================================================================
-describe('canMove2()', () => {
+describe('rook.canMove2()', () => {
     //test cases for TRUE
     let testCases = [
         { sq1: 'E4', sq2: 'E5', occArr: [] }, //TC 1: north 1
@@ -14,9 +14,9 @@ describe('canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let rook = new Rook('ID', 'TEAM', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
+        let rook = new Rook('ID', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
         let occSet = new Set(tc.occArr);
-        it(`should say canMove2(${tc.sq2}) === true`, () => {
+        it(`should say rook.canMove2(${tc.sq2}) === true`, () => {
             chai.expect(rook.canMove2(tc.sq2, occSet)).to.be.ok;
         });
     });
@@ -39,9 +39,9 @@ describe('canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let rook = new Rook('ID', 'TEAM', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
+        let rook = new Rook('ID', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
         let occSet = new Set(tc.occArr);
-        it(`should say canMove2(${tc.sq2}) === false`, () => {
+        it(`should say rook.canMove2(${tc.sq2}) === false`, () => {
             chai.expect(rook.canMove2(tc.sq2, occSet)).to.be.not.ok;
         });
     });

@@ -15,7 +15,7 @@ describe('king.canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let king = new King('ID', 'TEAM', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
+        let king = new King('ID', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
         let occSet = new Set(tc.occArr);
         it(`should say canMove2(${tc.sq2}) === true`, () => {
             chai.expect(king.canMove2(tc.sq2, occSet)).to.be.ok;
@@ -34,7 +34,7 @@ describe('king.canMove2()', () => {
     ];
 
     testCases.forEach(tc => {
-        let king = new King('ID', 'TEAM', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
+        let king = new King('ID', tc.sq1, 'IMAGE'); //only location is needed to test this function, so the other fields are dummies
         let occSet = new Set(tc.occArr);
         it(`should say canMove2(${tc.sq2}) === false`, () => {
             chai.expect(king.canMove2(tc.sq2, occSet)).to.be.not.ok;
