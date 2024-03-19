@@ -55,10 +55,8 @@ export class GameMaster {
    */
   gameSetup() {
     this.#createPieces();
-    //this.#aelSquares();
     this.#aelSquares2();
     this.#aelPawnPromotion();
-    //this.#aelButton();
   }
 
   /**
@@ -138,54 +136,66 @@ export class GameMaster {
       chessPiece.move(destination); //move it to the new location
       this.#occupiedSquares.add(destination); //occupy the new location
 
-      // check for pawn promotion
-      if (this.#checkPawnPromotion(chessPiece)) {
+      // Do we need to do a pawn promotion
+      if (this.#isPawnPromotion(chessPiece)) {
         console.log("PROMOTING PAWN");
         this.#promotePawn(chessPiece.getPieceID());
       } else {
         //no pawn promotion available
         this.#startNextTurn(); //start the next turn
       }
+
+      // update the feedback text
+      document.querySelector('#feedback').textContent = chessPiece.getFeedback();
+    }
+    else {
+      // update the feedback text
+      document.querySelector('#feedback').textContent = chessPiece.getFeedback();
     }
   }
-
-  // garbage **************************************************************************************************************
-  //   #aelButton() {
-  //     const btnMove = document.querySelector("#btnMove");
-  //     btnMove.addEventListener("click", (e) => {
-  //       e.preventDefault();
-  //       const pieceID = document.querySelector("#lblSQ1").textContent; //get the piece ID from the label
-  //       const chessPiece = this.#chessPieces.get(pieceID); //get the chessPiece object to be moved
-  //       const destination = document.querySelector("#lblSQ2").textContent; //get the new location from the input, trimmed and upper case
-  //       if (chessPiece.canMove(destination, this.#occupiedSquares)) {
-  //         //if this chess piece is allowed to move there
-  //         this.#occupiedSquares.delete(chessPiece.getLocation()); //de-occupy the old location
-  //         chessPiece.move(destination); //move it to the new location
-  //         this.#occupiedSquares.add(destination); //occupy the new location
-
-  //         // check for pawn promotion
-  //         if (this.#checkPawnPromotion(chessPiece)) {
-  //           console.log("PROMOTING PAWN");
-  //           this.#promotePawn(chessPiece.getPieceID());
-  //         } else {
-  //           //no pawn promotion available
-  //           this.#startNextTurn(); //start the next turn
-  //         }
-  //       }
-  //     });
-  //   }
 
   /**
    * Makes the board ready for the next turn
    */
   #startNextTurn() {
-    //console.log('entered startNextTurn() function');
+    // TODO VVVVV *************************************************************************
+    // the chess pieces of the team that just finished
+    let enemyChessPieces = null;
+    // the location of the king of the team that did NOT just finish.
+    //this.askIsKingChecked(enemyChessPieces, locationOfKing);
+    // TODO ^^^^^ *************************************************************************
+
     this.#whoseTurn = this.#whoseTurn === "Light" ? "Dark" : "Light"; // if it was light's turn, it is now dark's turn, and vice versa
     document.querySelector("#whoseTurn").innerText = this.#whoseTurn;
 
     // unclick both squares
     this.#unclickSQ1(this.#chosenSQ1);
     this.#unclickSQ2(this.#chosenSQ2);
+  }
+
+  /**
+   * Determines whether the king is checked
+   */
+  askIsKingChecked(enemyChessPieces, locationOfKing) {
+    // Assume the King is not checked
+    let isKingChecked = false;
+
+    // Cycle through all the chess pieces of the opposite team, and ask if they check the specified King
+    enemyChessPieces.forEach((chessPiece) => {
+      if (chessPiece.canMove(locationOfKing, this.#occupiedSquares)) {
+        // The King is checked!
+        isKingChecked = true;
+      }
+    });
+
+    return isKingChecked;
+  }
+
+  /**
+   * Determines whether the king is in checkmate
+   */
+  isCheckmate() {
+    // TODO: this whole function!
   }
 
   /**Add Event Listener to the Squares
@@ -230,45 +240,6 @@ export class GameMaster {
     }); // End of foreach loop
   }
 
-  // garbage **************************************************************************************************************
-  //   #aelSquares() {
-  //     this.#squareIDs.forEach((squareID) => {
-  //       document.querySelector(`#${squareID}`).addEventListener("click", (e) => {
-  //         if (squareID === this.#chosenSQ1) {
-  //           //console.log('first if');
-  //           this.#unclickSQ1(squareID);
-  //           //return;
-  //         } else if (squareID === this.#chosenSQ2) {
-  //           //console.log('second if');
-  //           this.#unclickSQ2(squareID);
-  //           //return;
-  //         } else if (this.#occupiedSquares.has(squareID)) {
-  //           // Is this square occupied?
-  //           //console.log('third if');
-  //           // Does this square contain an ally?
-  //           if (
-  //             document
-  //               .querySelector(`#${squareID}`)
-  //               .innerText[0].toLowerCase() === this.#whoseTurn[0].toLowerCase()
-  //           ) {
-  //             //console.log('fourth if');
-  //             this.#clickSQ1(squareID);
-  //             //return;
-  //           } else {
-  //             // else this square contains an enemy
-  //             //console.log('fifth if');
-  //             this.#clickSQ2(squareID);
-  //             //return;
-  //           }
-  //         } else {
-  //           //console.log('last else');
-  //           this.#clickSQ2(squareID);
-  //           //return;
-  //         }
-  //       });
-  //     });
-  //   }
-
   #unclickSQ1(squareID) {
     document.querySelector("#lblSQ1").innerText = "source";
     this.#chosenSQ1 = "Z9";
@@ -297,7 +268,7 @@ export class GameMaster {
     document.querySelector("#lblSQ2").innerText = squareID;
   }
 
-  #checkPawnPromotion(chessPiece) {
+  #isPawnPromotion(chessPiece) {
     // if this is a pawn
     if (chessPiece.getType() === "Pawn") {
       // is the team Light?
@@ -312,9 +283,6 @@ export class GameMaster {
   }
 
   #promotePawn(pawnID) {
-    //disable the move button so they can't move until the promotion is finished
-    // document.querySelector("#btnMove").disabled = true;
-
     //show the promotion form, then wait for their answer
     document.querySelector("#spnPromoPawn").innerText = pawnID;
     document.querySelector("#spnPromoLoc").innerText = this.#chessPieces
@@ -368,9 +336,6 @@ export class GameMaster {
 
       //hide the promo form, so they can't do anymore promos
       document.querySelector("#divPromo").classList.add("hidden");
-
-      //enable the move button, so the game can proceed
-      // deprecated --  document.querySelector("#btnMove").disabled = false;
 
       this.#startNextTurn(); //start the next turn
     });
